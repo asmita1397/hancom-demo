@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="firstrow">
-     <!--  Microsoft Visual Basic for Applications - Book1
+      <!--  Microsoft Visual Basic for Applications - Book1
       <span class="buttons">
         <button class="min">_</button>
         <button class="max">[]</button>
         <button class="close1">X</button>
-      </span> -->
+      </span>-->
       <div class="ui-titlebar">
         <!--<div class="ui-titleicon"></div>-->
         <div class="ui-titletext">Microsoft Visual Basic for Applications - Book1</div>
@@ -45,11 +45,16 @@ Unmaximize/restore
       <button class="tablink">
         <u>E</u>dit
       </button>
-      <button class="tablink" @click="selectToolBox">
+      <button class="tablink dropdown" @click="selectToolBox">
         <u>V</u>iew
         <!-- <ul @click="openToolBox" v-if="selectedToolBox">
           <li>ToolBox</li>
         </ul>-->
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
       </button>
       <button class="tablink" @click="selectUserForm">
         <u>I</u>nsert
@@ -223,4 +228,35 @@ i:hover {
   width: 10px;
   height: 10px;
 }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.tablink:hover .dropdown-content {
+  display: block;
+}
+.dropdown
+{
+   position: relative;
+  display: inline-block;
+}
+
+/* .tablink:hover .dropbtn {background-color: #3e8e41;} */
 </style>

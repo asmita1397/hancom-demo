@@ -6,35 +6,36 @@
         <hr class="hr" />
       </div>
       <div class="mainbody">
-        <div class="left"></div>
-        <div class="sidenav">
-          <div class="sideheader">
-            <span class="sideheader1">
-              Project - VBAProject
-              <button style="float:right">
-                <b>X</b>
-              </button>
-            </span>
-          </div>
-
-          <div>
-            <i class="material-icons">&#xe2c8;</i>
-          </div>
-          <hr />
-
-          <div>
-            <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
-            <hr />
-
+        <div class="left">
+          <div class="sidenav">
             <div class="sideheader">
               <span class="sideheader1">
-                Properties - UserForm1
+                Project - VBAProject
                 <button style="float:right">
                   <b>X</b>
                 </button>
               </span>
             </div>
-            <UserFormPropertiesList />
+
+            <div>
+              <i class="material-icons">&#xe2c8;</i>
+            </div>
+            <hr />
+
+            <div>
+              <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
+              <hr />
+
+              <div class="sideheader">
+                <span class="sideheader1">
+                  Properties - UserForm1
+                  <button style="float:right">
+                    <b>X</b>
+                  </button>
+                </span>
+              </div>
+              <UserFormPropertiesList />
+            </div>
           </div>
         </div>
         <div class="right">
@@ -87,7 +88,7 @@ export default {
       selected: false,
       selectedUserForm: {},
       selectedControl: "",
-      prevModalZIndex: "",
+      prevModalZIndex: 2,
       root: treeUserFormData
     };
   },
@@ -107,12 +108,19 @@ export default {
     },
     addUserForm() {
       console.log("user form added");
-      let initialUserFormD = JSON.parse(JSON.stringify(this.initialUserForm))
+      let initialUserFormD = JSON.parse(JSON.stringify(this.initialUserForm));
       let userForm = {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
         name: "UserForm",
-        type: "UserForm"
+        type: "UserForm",
+        outerWindowStyle: {
+          ...initialUserFormD.outerWindowStyle,
+          container: {
+            ...initialUserFormD.outerWindowStyle.container,
+            zIndex: ++this.prevModalZIndex
+          }
+        }
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
@@ -146,10 +154,12 @@ export default {
     },
     closeWindow(modal) {
       console.log("modal of close", modal.id);
-      for (let i = 0; i <this.root.userForms[0].userForms.length; i++) {
+      for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
         if (this.root.userForms[0].userForms[i].id == modal.id) {
           /*   console.log(this.userForms[i]); */
-          this.root.userForms[0].userForms[i].outerWindowStyle.container.display = "none";
+          this.root.userForms[0].userForms[
+            i
+          ].outerWindowStyle.container.display = "none";
           break;
         }
       }
@@ -162,7 +172,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -211,7 +221,7 @@ hr {
 }
 .sidenav {
   height: 90%;
-  width: 350px;
+  width: inherit;
   position: fixed;
   z-index: 1;
   top: 5;
@@ -246,18 +256,18 @@ hr {
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  padding-top: 20px;
+  padding-left: 5px;
 }
 
 .right {
   right: 0;
   background-color: #80888e;
   height: 100%;
-  width: 73%;
+  width: 69%;
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  padding-top: 20px;
+  
 }
 .container {
   width: 100%;
