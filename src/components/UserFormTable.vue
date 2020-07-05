@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="btn-group">
+    <br/>
+    <div class="btn-group" style="float:left">
       <button class="button" default>Alphabetic</button>
       <button class="button">Categorized</button>
     </div>

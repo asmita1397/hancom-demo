@@ -6,38 +6,47 @@
         <hr class="hr" />
       </div>
       <div class="mainbody">
-        <div class="left"></div>
-        <div class="sidenav">
-          <div class="sideheader">
-            <span class="sideheader1">
-              Project - VBAProject
-              <button style="float:right">
-                <b>X</b>
-              </button>
-            </span>
-          </div>
-
-          <div>
-            <i class="material-icons">&#xe2c8;</i>
-          </div>
-          <hr />
-
-          <div>
-            <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
-            <hr />
-
+        <div class="left">
+          <div class="sidenav">
             <div class="sideheader">
               <span class="sideheader1">
+<<<<<<< HEAD
                 Properties - {{this.selectedUserForm&&this.selectedUserForm.name}}
                 <button
                   style="float:right"
                 >
+=======
+                Project - VBAProject
+                <button style="float:right">
+>>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
                   <b>X</b>
                 </button>
               </span>
             </div>
 
+<<<<<<< HEAD
             <UserFormPropertiesList />
+=======
+            <div>
+              <i class="material-icons">&#xe2c8;</i>
+            </div>
+            <hr />
+
+            <div>
+              <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
+              <hr />
+
+              <div class="sideheader">
+                <span class="sideheader1">
+                  Properties - UserForm1
+                  <button style="float:right">
+                    <b>X</b>
+                  </button>
+                </span>
+              </div>
+              <UserFormPropertiesList />
+            </div>
+>>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
           </div>
         </div>
         <div class="right">
@@ -92,7 +101,7 @@ export default {
       selected: false,
       selectedUserForm: {},
       selectedControl: "",
-      prevModalZIndex: "",
+      prevModalZIndex: 2,
       root: treeUserFormData
     };
   },
@@ -138,9 +147,21 @@ export default {
       let userForm = {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
+<<<<<<< HEAD
         name: "UserForm" + (this.root.userForms[0].userForms.length + 1),
         type: "UserForm",
         caption: "UserForm" + (this.root.userForms[0].userForms.length + 1)
+=======
+        name: "UserForm",
+        type: "UserForm",
+        outerWindowStyle: {
+          ...initialUserFormD.outerWindowStyle,
+          container: {
+            ...initialUserFormD.outerWindowStyle.container,
+            zIndex: ++this.prevModalZIndex
+          }
+        }
+>>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
@@ -198,7 +219,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -247,7 +268,7 @@ hr {
 }
 .sidenav {
   height: 90%;
-  width: 350px;
+  width: inherit;
   position: fixed;
   z-index: 1;
   top: 5;
@@ -282,18 +303,18 @@ hr {
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  padding-top: 20px;
+  padding-left: 5px;
 }
 
 .right {
   right: 0;
   background-color: #80888e;
   height: 100%;
-  width: 73%;
+  width: 69%;
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  padding-top: 20px;
+  
 }
 .container {
   width: 100%;
