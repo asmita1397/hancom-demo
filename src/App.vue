@@ -28,12 +28,15 @@
 
             <div class="sideheader">
               <span class="sideheader1">
-                Properties - UserForm1
-                <button style="float:right">
+                Properties - {{this.selectedUserForm&&this.selectedUserForm.name}}
+                <button
+                  style="float:right"
+                >
                   <b>X</b>
                 </button>
               </span>
             </div>
+
             <UserFormPropertiesList />
           </div>
         </div>
@@ -65,6 +68,8 @@ import treeUserFormData from "./components/models/treeUserFormData.json";
 import ToolBox from "./components/ToolBox";
 import UserForm from "./components/UserForm";
 import initialUserFormData from "./components/models/userForm.json";
+import { EventBus } from "./components/event-bus.js";
+
 export default {
   name: "App",
   components: {
@@ -91,11 +96,33 @@ export default {
       root: treeUserFormData
     };
   },
+  mounted() {
+    EventBus.$on(
+      "validateUserFormName",
+      (selectedForm, newUserName, resolve, reject) => {
+        console.log("RRR", this.root.userForms[0].userForms[0].name);
+        for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
+          if (this.root.userForms[0].userForms[i].name === newUserName) {
+            let oldv = selectedForm.name;
+            selectedForm.name = oldv;
+            reject("Failed");
+          }
+        }
+        selectedForm.name = newUserName;
+        resolve("Success");
+      }
+    );
+  },
   methods: {
     nodeWasClicked(node) {
       //  alert(node.id);
       (this.selected = true), (this.selectedUserForm = node);
-      console.log(this.selectedUserForm);
+      this.makeActive(node);
+      EventBus.$emit(
+        "i-got-clicked",
+        this.selectedUserForm,
+        this.selectedUserForm
+      );
     },
     innerWindowResize(e, userFormId) {
       for (let i = 0; i < this.userForms.length; i++) {
@@ -107,17 +134,23 @@ export default {
     },
     addUserForm() {
       console.log("user form added");
-      let initialUserFormD = JSON.parse(JSON.stringify(this.initialUserForm))
+      let initialUserFormD = JSON.parse(JSON.stringify(this.initialUserForm));
       let userForm = {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
-        name: "UserForm",
-        type: "UserForm"
+        name: "UserForm" + (this.root.userForms[0].userForms.length + 1),
+        type: "UserForm",
+        caption: "UserForm" + (this.root.userForms[0].userForms.length + 1)
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
         userForm
       ];
+      this.nodeWasClicked(
+        this.root.userForms[0].userForms[
+          this.root.userForms[0].userForms.length - 1
+        ]
+      );
     },
 
     addControl(tool, pos) {
@@ -132,6 +165,7 @@ export default {
       /* console.log("Hello"); */
       this.previousZindex = ++this.prevModalZIndex;
       modal.outerWindowStyle.container.zIndex = this.previousZindex.toString();
+      EventBus.$emit("i-got-clicked", modal, modal);
     },
     openModal() {
       for (let i = 0; i < this.userForms.length; i++) {
@@ -146,10 +180,12 @@ export default {
     },
     closeWindow(modal) {
       console.log("modal of close", modal.id);
-      for (let i = 0; i <this.root.userForms[0].userForms.length; i++) {
+      for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
         if (this.root.userForms[0].userForms[i].id == modal.id) {
           /*   console.log(this.userForms[i]); */
-          this.root.userForms[0].userForms[i].outerWindowStyle.container.display = "none";
+          this.root.userForms[0].userForms[
+            i
+          ].outerWindowStyle.container.display = "none";
           break;
         }
       }

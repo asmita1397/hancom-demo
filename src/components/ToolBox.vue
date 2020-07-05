@@ -480,7 +480,7 @@ ul {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  z-index: 100;
+  z-index: 10000;
   position: absolute;
   top: 338px;
   left: 614px;

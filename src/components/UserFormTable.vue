@@ -9,13 +9,13 @@
       <tr>
         <td>(Name)</td>
         <td>
-          <input type="text" />
+          <input disabled type="text" :value="selectedUserForm.name" @input="validateUserFormName" />
         </td>
       </tr>
       <tr>
         <td>BackColor</td>
         <td>
-          <select :value="backColor">
+          <select v-model="selectedUserForm.innerWindowStyle.container.backgroundColor">
             <option v-for="(item,key) in backColor" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -23,7 +23,7 @@
       <tr>
         <td>BorderColor</td>
         <td>
-          <select :value="borderColor">
+          <select v-model="selectedUserForm.innerWindowStyle.container.borderColor">
             <option v-for="(item,key) in borderColor" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -31,7 +31,7 @@
       <tr>
         <td>BorderStyle</td>
         <td>
-          <select :value="borderStyle">
+          <select v-model="selectedUserForm.innerWindowStyle.container.borderStyle">
             <option v-for="(item,key) in borderStyle" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -39,13 +39,13 @@
       <tr>
         <td>Caption</td>
         <td>
-          <input type="text" :value="caption" />
+          <input type="text" v-model="selectedUserForm.caption" />
         </td>
       </tr>
       <tr>
         <td>Cycle</td>
         <td>
-          <select :value="cycle">
+          <select v-model="selectedUserForm.cycle">
             <option v-for="(item,key) in cycle" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -53,13 +53,13 @@
       <tr>
         <td>DrawBuffer</td>
         <td>
-          <input type="text" :value="drawBuffer" />
+          <input type="text" v-model="selectedUserForm.drawBuffer" />
         </td>
       </tr>
       <tr>
         <td>Enabled</td>
         <td>
-          <select :value="enabled">
+          <select v-model="selectedUserForm.enabled">
             <option selected>True</option>
             <option>False</option>
           </select>
@@ -68,7 +68,7 @@
       <tr>
         <td>Font</td>
         <td>
-          <select :value="font">
+          <select v-model="selectedUserForm.innerWindowStyle.container.fontFamily">
             <option v-for="(item,key) in font" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -76,7 +76,7 @@
       <tr>
         <td>ForeColor</td>
         <td>
-          <select :value="foreColor">
+          <select v-model="selectedUserForm.innerWindowStyle.container.color">
             <option v-for="(item,key) in foreColor" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -84,19 +84,19 @@
       <tr>
         <td>Height</td>
         <td>
-          <input type="number" :value="height" />
+          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.height" />
         </td>
       </tr>
       <tr>
         <td>HelpContextId</td>
         <td>
-          <input type="number" :value="helpContextId" />
+          <input type="number" v-model="selectedUserForm.helpContextId" />
         </td>
       </tr>
       <tr>
         <td>KeepScrollsBarsVisible</td>
         <td>
-          <select :value="keepScrollsBarsVisible">
+          <select v-model="selectedUserForm.keepScrollsBarsVisible">
             <option v-for="(item,key) in keepScrollsBarsVisible" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -104,19 +104,19 @@
       <tr>
         <td>Left</td>
         <td>
-          <input type="number" :value="left" />
+          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.left" />
         </td>
       </tr>
       <tr>
         <td>MouseIcon</td>
         <td>
-          <input type="text" :value="mouseIcon" />
+          <input type="text" v-model="selectedUserForm.mouseIcon" />
         </td>
       </tr>
       <tr>
         <td>MousePointer</td>
         <td>
-          <select :value="mousePointer">
+          <select v-model="selectedUserForm.mousePointer">
             <option v-for="(item,key) in mousePointer" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -124,13 +124,13 @@
       <tr>
         <td>Picture</td>
         <td>
-          <input type="text" :value="picture" />
+          <input type="text" v-model="selectedUserForm.picture" />
         </td>
       </tr>
       <tr>
         <td>PictureAlignment</td>
         <td>
-          <select :value="pictureAlignment">
+          <select v-model="selectedUserForm.pictureAlignment">
             <option v-for="(item,key) in pictureAlignment" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -138,7 +138,7 @@
       <tr>
         <td>PictureSizeMode</td>
         <td>
-          <select :value="pictureSizeMode">
+          <select v-model="selectedUserForm.pictureSizeMode">
             <option v-for="(item,key) in pictureSizeMode" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -146,7 +146,7 @@
       <tr>
         <td>PictureTiling</td>
         <td>
-          <select :value="PictureTiling">
+          <select v-model="selectedUserForm.PictureTiling">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -155,7 +155,7 @@
       <tr>
         <td>RightToLeft</td>
         <td>
-          <select :value="rightToLeft">
+          <select v-model="selectedUserForm.rightToLeft">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -164,7 +164,7 @@
       <tr>
         <td>ScrollBars</td>
         <td>
-          <select :value="scrollBars">
+          <select v-model="selectedUserForm.scrollBars">
             <option v-for="(item,key) in scrollBars" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -172,32 +172,32 @@
       <tr>
         <td>ScrollHeight</td>
         <td>
-          <input type="number" :value="scrollHeight" />
+          <input type="number" v-model="selectedUserForm.scrollHeight" />
         </td>
       </tr>
       <tr>
         <td>ScrollLeft</td>
         <td>
-          <input type="number" :value="scrollLeft" />
+          <input type="number" v-model="selectedUserForm.scrollLeft" />
         </td>
       </tr>
       <tr>
         <td>ScrollTop</td>
         <td>
-          <input type="number" :value="scrollTop" />
+          <input type="number" v-model="selectedUserForm.scrollTop" />
         </td>
       </tr>
 
       <tr>
         <td>ScrollWidth</td>
         <td>
-          <input type="number" :value="scrollWidth" />
+          <input type="number" v-model="selectedUserForm.scrollWidth" />
         </td>
       </tr>
       <tr>
         <td>ShowModal</td>
         <td>
-          <select :value="showModal">
+          <select v-model="selectedUserForm.showModal">
             <option selected>True</option>
             <option>False</option>
           </select>
@@ -206,7 +206,7 @@
       <tr>
         <td>SpecialEffect</td>
         <td>
-          <select :value="specialEffect">
+          <select v-model="selectedUserForm.specialEffect">
             <option v-for="(item,key) in specialEffect" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -214,7 +214,7 @@
       <tr>
         <td>StartUpPosition</td>
         <td>
-          <select :value="startUpPosition">
+          <select v-model="selectedUserForm.startUpPosition">
             <option v-for="(item,key) in startUpPosition" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -222,19 +222,19 @@
       <tr>
         <td>Tag</td>
         <td>
-          <input type="text" :value="tag" />
+          <input type="text" v-model="selectedUserForm.tag" />
         </td>
       </tr>
       <tr>
         <td>Top</td>
         <td>
-          <input type="number" :value="top" />
+          <input type="number" v-model="selectedUserForm.top" />
         </td>
       </tr>
       <tr>
         <td>WhatsThisButton</td>
         <td>
-          <select :value="whatsThisButton">
+          <select v-model="selectedUserForm.whatsThisButton">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -243,7 +243,7 @@
       <tr>
         <td>WhatsThisHelp</td>
         <td>
-          <select :value="whatsThisHelp">
+          <select v-model="selectedUserForm.whatsThisHelp">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -252,13 +252,13 @@
       <tr>
         <td>Width</td>
         <td>
-          <input type="number" :value="width" />
+          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.width" />
         </td>
       </tr>
       <tr>
         <td>Zoom</td>
         <td>
-          <input type="number" :value="zoom" />
+          <input type="number" v-model="selectedUserForm.zoom" />
         </td>
       </tr>
     </table>
@@ -280,14 +280,17 @@ import pictureAlignment from "./models/pictureAlignment.json";
 import scrollBars from "./models/scrollBars.json";
 import specialEffect from "./models/specialEffect.json";
 import startUpPosition from "./models/startUpPosition.json";
+import pictureSizeMode from "./models/pictureSizeMode.json";
 // import borderColor from "./models/borderColor.json";
+import { EventBus } from "./event-bus.js";
 
 export default {
   name: "userFormTable",
-  props: ["userForms"],
+  props: ["selectedUserForm"],
   components: {},
   data() {
     return {
+      pictureSizeMode: pictureSizeMode,
       backColor: backColor,
       // root: userForms,
       borderColor: borderColor,
@@ -302,6 +305,27 @@ export default {
       specialEffect: specialEffect,
       startUpPosition: startUpPosition
     };
+  },
+  methods: {
+    validateUserFormName(e) {
+      let prms = new Promise((resolve, reject) => {
+        EventBus.$emit(
+          "validateUserFormName",
+          this.selectedUserForm,
+          e.target.value,
+          resolve,
+          reject
+        );
+      });
+      prms
+        .then(res => {
+          console.log("Res", res);
+        })
+        .catch(err => {
+          console.log("Erro", err);
+          this.selectedUserForm.name = e.target.value;
+        });
+    }
   }
 };
 </script>

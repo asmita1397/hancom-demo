@@ -7,13 +7,13 @@
         @click="make(modal)"
       >
         <div :style="modal.outerWindowStyle.top" @mousedown="dragMouseDown($event,modal.id)">
-          <span>Book1 {{modal.name}}{{modal.id}} (UserForm)</span>
+          <span>Book1 {{modal.name}} (UserForm)</span>
           <OuterWindowButton :userForm="modal" @closeWindow="closeWindow" />
         </div>
 
         <div :style="modal.innerWindowStyle.container" v-resize @resize="onResize($event,modal.id)">
           <div :style="modal.innerWindowStyle.top">
-            <span>{{modal.name}}{{modal.id}}</span>
+            <span>{{modal.name}}</span>
             <!--  <button  disabled> -->
             <img
               class="close"
@@ -106,8 +106,7 @@ export default {
         };
 
         this.$emit("addControl", tool, pos);
-      } 
-      else if (this.selectedControl == "commandbutton") {
+      } else if (this.selectedControl == "commandbutton") {
         let commandButtonControlD = JSON.parse(
           JSON.stringify(this.commandButtonControlData)
         );

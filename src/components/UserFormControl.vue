@@ -14,11 +14,11 @@
           @resizing="(x,y,width,height)=>onResize(control,x,y,width,height)"
           @dragstop="(left, top) => dragstop(control, left, top)"
           @deactivated="onDeactivated"
-          @activated="onActivated"
+          @activated="onActivated('aa')"
         >
           <CustomLabel v-if="control.type==='Label'" :control="control" :modal="modal" />
           <CustomButton v-if="control.type==='CommandButton'" :control="control" :modal="modal" />
-         
+
           <!--  <label :style="v">kkkkkk</label> -->
           <!-- <input
             :id="control.id"
@@ -26,7 +26,7 @@
             :style="control.style"
             ref="i"
             @click="customInputClick(control.id)"
-          /> -->
+          />-->
         </vue-draggable-resizable>
       </template>
     </div>
@@ -36,14 +36,14 @@
 
 <script>
 import CustomLabel from "./CustomLabel";
-import CustomButton from "./CustomButton"
+import CustomButton from "./CustomButton";
 /* import CustomInput from "./CustomInput"; */
 import VueDraggableResizable from "./vue-draggable-resizable";
 
 export default {
   components: {
-     CustomLabel,
-     CustomButton,
+    CustomLabel,
+    CustomButton,
     /* CustomInput, */
     VueDraggableResizable
   },
@@ -55,11 +55,9 @@ export default {
         position: "absolute",
         backgroundColor: ""
       },
-      style:
-      {
-        zIndex:20
-      },
-      
+      style: {
+        zIndex: 20
+      }
     };
   },
   props: {
@@ -81,21 +79,22 @@ export default {
       control.style.left = `${x}px`;
       control.style.top = `${y}px`;
     },
-    onDeactivated() {
+    onDeactivated(e) {
       /* console.log("deactive"); */
+      console.log(e);
+      console.log("DEACTIVE");
     },
-    onActivated() {
+    onActivated(e) {
       /*  console.log(this.$refs.vdr); */
-      /* console.log("active"); */
+      console.log(e);
+      console.log("active");
     },
 
     customInputClick(controlId) {
-       
       for (let i = 0; i < this.$refs.i.length; i++) {
         if (this.$refs.i[i].id == controlId) {
-          this.controlPrevZindex= ++this.controlPrevZindex;
+          this.controlPrevZindex = ++this.controlPrevZindex;
           this.$refs.i[i].focus();
-          
           console.log("style of input", this.$refs.i[i].style.zIndex);
         }
       }
@@ -105,15 +104,15 @@ export default {
       console.log("jjjjj");
     }
   }
-}
+};
 </script>
 
 
 <style  scoped>
 :root {
-  --main-bg-color:red;
+  --main-bg-color: red;
 }
-.styleCss{
-   background-color: var(--main-bg-color);
+.styleCss {
+  background-color: var(--main-bg-color);
 }
 </style>
