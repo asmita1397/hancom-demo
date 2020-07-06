@@ -14,13 +14,13 @@
         <div :style="modal.innerWindowStyle.container" v-resize @resize="onResize($event,modal.id)">
           <div :style="modal.innerWindowStyle.top">
             <span>{{modal.name}}</span>
-            <!--  <button  disabled> -->
+            
             <img
               class="close"
               :style="modal.innerWindowStyle.closeButton"
               src="https://img.icons8.com/fluent/48/000000/close-window.png"
             />
-            <!--   </button> -->
+          
           </div>
           <div
             @mouseup="handleMouseUp(modal.name)"
@@ -46,8 +46,6 @@
 
 <script>
 import Dragable from "./Dragable";
-/* 
-import customLabelData from "./CustomLabel"; */
 import UserFormControl from "./UserFormControl";
 import OuterWindowButton from "./OuterWindowButton.vue";
 import labelControl from "./models/labelControl";
