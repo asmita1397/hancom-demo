@@ -337,10 +337,6 @@ export default {
     },
     handleClick(e) {
       this.isActive = e.target.name;
-      console.log(this.isActive);
-      console.log(e.target.name);
-      console.log("tool", e.target.name);
-
       this.$emit("selectedTool", e.target.name);
     },
     handleClose() {
@@ -369,12 +365,10 @@ export default {
   top: 100%;
   left: 50%;
 
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
@@ -410,7 +404,6 @@ body {
   width: 30%;
   line-height: 1.5;
   margin: 0 auto;
-  /* padding: 2.5rem 1.25rem; */
 }
 ul {
   margin-bottom: 1.25rem;
@@ -429,7 +422,6 @@ ul {
 .tabBlock {
   margin: 0 0 0.1rem 0;
 }
-/* #f3f2f1 */
 .tabBlock-tab {
   background-color: #fff;
   border-color: #d8d8d8;
@@ -464,9 +456,6 @@ ul {
   width: 12px;
   cursor: default;
 }
-.img:hover {
-  /*  background: #5e99f7; */
-}
 
 #draggable-container {
   position: absolute;
@@ -495,9 +484,6 @@ ul {
   color: black;
 }
 
-.container {
-  /*  width:29% */
-}
 .innerContainer {
   top: 36px;
   position: absolute;

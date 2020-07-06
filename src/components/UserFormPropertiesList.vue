@@ -1,35 +1,35 @@
 <template>
-  <div class="form-group">
-    <!-- <select-dropdown :userForm="userForms" v-if="selected" /> -->
-    <label for="userForm"></label>
-    <select
-      class="form-control"
-      name="selectedUserForm"
-      id="selectedUserForm"
-      v-model="selectedOption"
-      @change="handleSelectedOption(selectedUserForm,selectedOption)"
-    >
-      <option :value="selectedUserForm" :selected="true">{{ selectedUserForm.name }}</option>
-      <option v-for="control in selectedUserForm.controls" :value="control" :key="control.id">
-        <b>{{ control.name }}</b>
-      </option>
-      <!-- <option>
-        <b>UserForm1</b> UserForm
-      </option>
-      <option>
-        <b>Label1</b> Label
-      </option>
-      <option>
-        <b>CommandButton1</b> CommandButton
-      </option>-->
-    </select>
+  <div>
+    <div class="sideheader">
+      <span class="sideheader1">
+        Properties - {{selectedUserForm&&selectedUserForm.name}}
+        <button style="float:right">
+          <b>X</b>
+        </button>
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="userForm"></label>
+      <select
+        class="form-control"
+        name="selectedUserForm"
+        id="selectedUserForm"
+        v-model="selectedOption"
+        @change="handleSelectedOption(selectedUserForm,selectedOption)"
+      >
+        <option :value="selectedUserForm" :selected="true">{{ selectedUserForm.name }}</option>
+        <option v-for="control in selectedUserForm.controls" :value="control" :key="control.id">
+          <b>{{ control.name }}</b>
+        </option>
+      </select>
 
-    <UserFormTable v-if="selectedOption.type==='UserForm'" :selectedUserForm="selectedUserForm" />
-    <LabelControlTable v-if="selectedOption.type==='Label'" :selectedUserForm="selectedOption" />
-    <CommandButtonControl
-      v-if="selectedOption.type==='CommandButton'"
-      :selectedUserForm="selectedOption"
-    />
+      <UserFormTable v-if="selectedOption.type==='UserForm'" :selectedUserForm="selectedUserForm" />
+      <LabelControlTable v-if="selectedOption.type==='Label'" :selectedUserForm="selectedOption" />
+      <CommandButtonControl
+        v-if="selectedOption.type==='CommandButton'"
+        :selectedUserForm="selectedOption"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,28 +48,15 @@ export default {
   },
 
   mounted() {
-    EventBus.$on("i-got-clicked", (control, userForm) => {
+    EventBus.$on("userFormClicked", (control, userForm) => {
       this.selectedOption = control;
       this.selectedUserForm = userForm;
     });
   },
 
-  // watch: {
-  //   selectedUserForm: {
-  //     handler(v) {
-  //       this.selectedOption = v;
-  //     }
-  //   }
-  // },
-  // updated() {
-  //   console.log("AA", this.selectedOption);
-  //   if (this.selectedOption.type === "UserForm")
-  //     this.selectedOption = this.selectedUserForm;
-  // },
   methods: {
-    handleSelectedOption(selectedUserForm,selectedOption)
-    {
-      EventBus.$emit('selectedControlOption',selectedUserForm,selectedOption)
+    handleSelectedOption(selectedUserForm, selectedOption) {
+      EventBus.$emit("selectedControlOption", selectedUserForm, selectedOption);
     }
   },
   data() {
@@ -88,5 +75,18 @@ export default {
   width: 280px;
   cursor: pointer;
   background-color: white;
+}
+
+.sideheader1 {
+  top: 0%;
+  width: 250px;
+  background-color: rgb(142, 191, 231);
+  margin-bottom: 8px;
+}
+.sideheader {
+  height: 22px;
+  text-align: left;
+  padding: 0pc;
+  background-color: rgb(142, 191, 231);
 }
 </style>

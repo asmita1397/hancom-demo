@@ -30,7 +30,6 @@
             @mousedown="handleMouseDown(modal.name)"
           >
             <drag-selector
-
               v-model="checkedList"
               @change="handleDragSelectorChange"
               class="drag-selector"
@@ -76,7 +75,6 @@ export default {
         let userFormControlRef = this.$refs;
 
         for (let i = 0; i < this.userForms.length; i++) {
-         
           for (let j = 0; j < this.userForms[i].controls.length; j++) {
             userFormControlRef[this.userForms[i].name][0].$children[
               j
@@ -86,7 +84,6 @@ export default {
 
         for (let key in userFormControlRef) {
           if (key === selectedForm.name) {
-           
             for (
               let i = 0;
               i < userFormControlRef[key][0].$children.length;
@@ -111,13 +108,10 @@ export default {
   },
 
   methods: {
-    handleMouseDown() {
-     
-    },
+    handleMouseDown() {},
     handleMouseUp(modal) {
-        let dragRef='dragselector'.concat(modal)
-      this.selectedAreaStyle=this.$refs[dragRef][0].selectAreaStyle
-    
+      let dragRef = "dragselector".concat(modal);
+      this.selectedAreaStyle = this.$refs[dragRef][0].selectAreaStyle;
     },
 
     onResize(e, userFormId) {
@@ -131,7 +125,6 @@ export default {
       this.$emit("makeActive", modal);
     },
     closeWindow(modal) {
-     
       this.$emit("closeWindow", modal);
     },
     dragMouseDown(event, data) {
@@ -152,12 +145,13 @@ export default {
       this.$refs.child.closeDragElement(event);
     },
     createTool(e, modal) {
-   
       let labelControlD = JSON.parse(JSON.stringify(this.labelControlData));
-      if (this.selectedControl == "label") {
+      if (this.selectedControl === "label") {
         const tool = {
           ...labelControlD,
           id: modal.controls.length + 1,
+          name: "Label" + modal.controls.length + 1,
+          caption: "Label" + modal.controls.length + 1,
           style: {
             ...labelControl.style,
             left:
@@ -175,13 +169,12 @@ export default {
             height:
               this.selectedAreaStyle.height === "0px"
                 ? labelControlD.style.height
-                : this.selectedAreaStyle.height,
-           
+                : this.selectedAreaStyle.height
           }
         };
         console.log("tool", tool);
         this.$emit("addControl", tool, modal.id);
-      } else if (this.selectedControl == "commandbutton") {
+      } else if (this.selectedControl === "commandbutton") {
         let commandButtonControlD = JSON.parse(
           JSON.stringify(this.commandButtonControlData)
         );
@@ -189,6 +182,8 @@ export default {
         const tool = {
           ...commandButtonControlD,
           id: modal.controls.length + 1,
+          name: "CommandButton" + modal.controls.length + 1,
+          caption: "CommandButton" + modal.controls.length + 1,
           style: {
             ...commandButtonControlD.style,
             left:
@@ -206,7 +201,7 @@ export default {
             height:
               this.selectedAreaStyle.height === "0px"
                 ? labelControlD.style.height
-                : this.selectedAreaStyle.height,
+                : this.selectedAreaStyle.height
           }
         };
         this.$emit("addControl", tool, modal.id);
@@ -221,5 +216,3 @@ img {
   width: 24px;
 }
 </style>
-
-

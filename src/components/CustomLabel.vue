@@ -30,7 +30,7 @@ export default {
     customInputClick() {
       this.modal.controlZIndex = ++this.modal.controlZIndex;
       this.control.style.zIndex = this.modal.controlZIndex.toString();
-      EventBus.$emit("i-got-clicked", this.control, this.modal);
+      EventBus.$emit("userFormClicked", this.control, this.modal);
     }
   }
 };

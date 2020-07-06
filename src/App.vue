@@ -26,17 +26,6 @@
             <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
             <hr />
 
-            <div class="sideheader">
-              <span class="sideheader1">
-                Properties - {{this.selectedUserForm&&this.selectedUserForm.name}}
-                <button
-                  style="float:right"
-                >
-                  <b>X</b>
-                </button>
-              </span>
-            </div>
-
             <UserFormPropertiesList />
           </div>
         </div>
@@ -45,7 +34,7 @@
             @makeActive="makeActive"
             @closeWindow="closeWindow"
             :userForms="root.userForms[0].userForms"
-            selectedControl="selectedControl"
+            :selectedControl="selectedControl"
             @addControl="addControl"
             @innerWindowResize="innerWindowResize"
           />
@@ -82,7 +71,6 @@ export default {
   data() {
     return {
       initialUserForm: initialUserFormData,
-      selected: false,
       selectedUserForm: {},
       selectedControl: "",
       prevModalZIndex: "",
@@ -91,11 +79,10 @@ export default {
   },
   methods: {
     nodeWasClicked(node) {
-      //  alert(node.id);
-      (this.selected = true), (this.selectedUserForm = node);
+      this.selectedUserForm = node;
       this.makeActive(node);
       EventBus.$emit(
-        "i-got-clicked",
+        "userFormClicked",
         this.selectedUserForm,
         this.selectedUserForm
       );
@@ -109,7 +96,6 @@ export default {
       }
     },
     addUserForm() {
-      console.log("user form added");
       let initialUserFormD = JSON.parse(JSON.stringify(this.initialUserForm));
       let userForm = {
         ...initialUserFormD,
@@ -140,14 +126,12 @@ export default {
         ...this.root.userForms[0].userForms[pos - 1].controls,
         tool
       ];
-      /* console.log("I am tool", this.userForms[pos - 1].controls, pos, tool); */
       this.selectedControl = "";
     },
     makeActive(modal) {
-      /* console.log("Hello"); */
       this.previousZindex = ++this.prevModalZIndex;
       modal.outerWindowStyle.container.zIndex = this.previousZindex.toString();
-      EventBus.$emit("i-got-clicked", modal, modal);
+      EventBus.$emit("userFormClicked", modal, modal);
     },
     openModal() {
       for (let i = 0; i < this.userForms.length; i++) {
@@ -157,7 +141,6 @@ export default {
           this.userForms[i].style.display = "block";
         }
       }
-
       this.show = !this.show;
     },
     closeWindow(modal) {
@@ -178,25 +161,13 @@ export default {
 };
 </script>
 
-<style>
+<style style="scoped">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   color: #2c3e50;
-}
-.sideheader {
-  background-color: #cdd4db;
-  height: 23px;
-  text-align: left;
-  padding: 0pc;
-}
-.sideheader1 {
-  top: 0%;
-  width: 250px;
-  background-color: #cdd4db;
-  margin-bottom: 8px;
 }
 
 hr {
