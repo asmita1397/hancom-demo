@@ -6,6 +6,7 @@
           :style="{zIndex:control.style.zIndex}"
           v-for="control in modal.controls"
           :key="control.id"
+          :id="control.id"
           :w="parseInt(control.style.width)"
           :h="parseInt(control.style.height)"
           :x="parseInt(control.style.left)"
@@ -14,19 +15,10 @@
           @resizing="(x,y,width,height)=>onResize(control,x,y,width,height)"
           @dragstop="(left, top) => dragstop(control, left, top)"
           @deactivated="onDeactivated"
-          @activated="onActivated('aa')"
+          @activated="onActivated(modal,control)"
         >
           <CustomLabel v-if="control.type==='Label'" :control="control" :modal="modal" />
           <CustomButton v-if="control.type==='CommandButton'" :control="control" :modal="modal" />
-
-          <!--  <label :style="v">kkkkkk</label> -->
-          <!-- <input
-            :id="control.id"
-            :key="control.id"
-            :style="control.style"
-            ref="i"
-            @click="customInputClick(control.id)"
-          />-->
         </vue-draggable-resizable>
       </template>
     </div>
@@ -37,14 +29,12 @@
 <script>
 import CustomLabel from "./CustomLabel";
 import CustomButton from "./CustomButton";
-/* import CustomInput from "./CustomInput"; */
 import VueDraggableResizable from "./vue-draggable-resizable";
 
 export default {
   components: {
     CustomLabel,
     CustomButton,
-    /* CustomInput, */
     VueDraggableResizable
   },
   data() {
@@ -55,6 +45,8 @@ export default {
         position: "absolute",
         backgroundColor: ""
       },
+       deletingControlId: -1,
+      deletingUserFormId: -1,
       style: {
         zIndex: 20
       }
@@ -63,45 +55,48 @@ export default {
   props: {
     modal: Object
   },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  },
 
   methods: {
+    handleKeyDown(e) {
+      console.log(e);
+      if (e.keyCode === 8) {
+       
+        if (this.deletingUserFormId !== -1 && this.deletingControlId !== -1) {
+          console.log("==============", this.deletingUserFormId);
+          console.log("=============", this.deletingControlId);
+
+          if (this.modal.id === this.deletingUserFormId) {
+            this.modal.controls.splice(this.deletingControlId, 1);
+            this.deletingControlId = -1;
+            this.deletingUserFormId = -1;
+          }
+        }
+      }
+    },
+     onDeactivated() {
+      this.deletingControlId = -1;
+      this.deletingUserFormId = -1;
+    },
+    onActivated(modal, control) {
+      for (let i = 0; i < modal.controls.length; i++) {
+        if (modal.controls[i].id === control.id) {
+          this.deletingControlId = i;
+          this.deletingUserFormId = modal.id;
+        }
+      }
+    },
     onResize(control, x, y, width, height) {
-      /*  console.log("nnnn"); */
       control.style.width = `${width}px`;
       control.style.height = `${height}px`;
       control.style.left = `${x}px`;
       control.style.top = `${y}px`;
-      /*  console.log("jjjjjjjjjjj", x, y, width, height, control);
-
-      console.log(); */
     },
     dragstop(control, x, y) {
       control.style.left = `${x}px`;
       control.style.top = `${y}px`;
-    },
-    onDeactivated(e) {
-      /* console.log("deactive"); */
-      console.log(e);
-      console.log("DEACTIVE");
-    },
-    onActivated(e) {
-      /*  console.log(this.$refs.vdr); */
-      console.log(e);
-      console.log("active");
-    },
-
-    customInputClick(controlId) {
-      for (let i = 0; i < this.$refs.i.length; i++) {
-        if (this.$refs.i[i].id == controlId) {
-          this.controlPrevZindex = ++this.controlPrevZindex;
-          this.$refs.i[i].focus();
-          console.log("style of input", this.$refs.i[i].style.zIndex);
-        }
-      }
-
-      /* this.$refs.i.focus(); */
-
-      console.log("jjjjj");
     }
   }
 };

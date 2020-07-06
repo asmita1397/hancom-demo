@@ -5,6 +5,8 @@
         :style="modal.outerWindowStyle.container"
         ref="outerWindowContainerRef"
         @click="make(modal)"
+        v-resize
+        @resize="onOuterWindowResize($event,modal)"
       >
         <div :style="modal.outerWindowStyle.top" @mousedown="dragMouseDown($event,modal.id)">
           <span>Book1 {{modal.name}} (UserForm)</span>
@@ -14,20 +16,28 @@
         <div :style="modal.innerWindowStyle.container" v-resize @resize="onResize($event,modal.id)">
           <div :style="modal.innerWindowStyle.top">
             <span>{{modal.name}}</span>
-            <!--  <button  disabled> -->
+
             <img
               class="close"
               :style="modal.innerWindowStyle.closeButton"
               src="https://img.icons8.com/fluent/48/000000/close-window.png"
             />
-            <!--   </button> -->
           </div>
           <div
-            ref="pos"
+            @mouseup="handleMouseUp(modal.name)"
             :style="modal.innerWindowStyle.innerContainer"
-            @click="createTool($event,modal.id)"
+            @click="createTool($event,modal)"
+            @mousedown="handleMouseDown(modal.name)"
           >
-            <UserFormControl :modal="modal" />
+            <drag-selector
+
+              v-model="checkedList"
+              @change="handleDragSelectorChange"
+              class="drag-selector"
+              :ref="'dragselector'.concat(modal.name)"
+            >
+              <UserFormControl :modal="modal" :ref="modal.name" />
+            </drag-selector>
           </div>
         </div>
       </div>
@@ -38,12 +48,12 @@
 
 <script>
 import Dragable from "./Dragable";
-/* 
-import customLabelData from "./CustomLabel"; */
 import UserFormControl from "./UserFormControl";
 import OuterWindowButton from "./OuterWindowButton.vue";
 import labelControl from "./models/labelControl";
 import commandButtonControl from "./models/commandButtonControl";
+import { EventBus } from "./event-bus.js";
+
 export default {
   name: "UserForm",
   components: {
@@ -55,8 +65,45 @@ export default {
     return {
       refer: "",
       labelControlData: labelControl,
-      commandButtonControlData: commandButtonControl
+      commandButtonControlData: commandButtonControl,
+      selectedAreaStyle: ""
     };
+  },
+  mounted() {
+    EventBus.$on(
+      "selectedControlOption",
+      (selectedForm, selectedControlOption) => {
+        let userFormControlRef = this.$refs;
+
+        for (let i = 0; i < this.userForms.length; i++) {
+         
+          for (let j = 0; j < this.userForms[i].controls.length; j++) {
+            userFormControlRef[this.userForms[i].name][0].$children[
+              j
+            ].active = false;
+          }
+        }
+
+        for (let key in userFormControlRef) {
+          if (key === selectedForm.name) {
+           
+            for (
+              let i = 0;
+              i < userFormControlRef[key][0].$children.length;
+              i++
+            ) {
+              if (
+                userFormControlRef[key][0].$children[i].$attrs.id ===
+                selectedControlOption.id
+              ) {
+                userFormControlRef[key][0].$children[i].active = true;
+              }
+            }
+          }
+        }
+      }
+    );
+    console.log("selected area", this.$refs);
   },
   props: {
     userForms: Array,
@@ -64,14 +111,27 @@ export default {
   },
 
   methods: {
+    handleMouseDown() {
+     
+    },
+    handleMouseUp(modal) {
+        let dragRef='dragselector'.concat(modal)
+      this.selectedAreaStyle=this.$refs[dragRef][0].selectAreaStyle
+    
+    },
+
     onResize(e, userFormId) {
       this.$emit("innerWindowResize", e.detail, userFormId);
+    },
+    onOuterWindowResize(e, modal) {
+      modal.outerWindowStyle.container.width = e.detail.width;
+      modal.outerWindowStyle.container.height = e.detail.height;
     },
     make(modal) {
       this.$emit("makeActive", modal);
     },
     closeWindow(modal) {
-      console.log("=================");
+     
       this.$emit("closeWindow", modal);
     },
     dragMouseDown(event, data) {
@@ -91,60 +151,66 @@ export default {
     closeDragElement: function(event) {
       this.$refs.child.closeDragElement(event);
     },
-    createTool(e, pos) {
-      console.log("-------", this.selectedControl);
+    createTool(e, modal) {
+   
       let labelControlD = JSON.parse(JSON.stringify(this.labelControlData));
       if (this.selectedControl == "label") {
         const tool = {
           ...labelControlD,
-          id: this.userForms[pos - 1].controls.length + 1,
+          id: modal.controls.length + 1,
           style: {
             ...labelControl.style,
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`
+            left:
+              this.selectedAreaStyle.width === "0px"
+                ? e.offsetX
+                : this.selectedAreaStyle.left,
+            top:
+              this.selectedAreaStyle.width === "0px"
+                ? e.offsetY
+                : this.selectedAreaStyle.top,
+            width:
+              this.selectedAreaStyle.width === "0px"
+                ? labelControlD.style.width
+                : this.selectedAreaStyle.width,
+            height:
+              this.selectedAreaStyle.height === "0px"
+                ? labelControlD.style.height
+                : this.selectedAreaStyle.height,
+           
           }
         };
-
-        this.$emit("addControl", tool, pos);
+        console.log("tool", tool);
+        this.$emit("addControl", tool, modal.id);
       } else if (this.selectedControl == "commandbutton") {
         let commandButtonControlD = JSON.parse(
           JSON.stringify(this.commandButtonControlData)
         );
-        /* console.log("kkk"); */
+
         const tool = {
           ...commandButtonControlD,
-          id: this.userForms[pos - 1].controls.length + 1,
+          id: modal.controls.length + 1,
           style: {
             ...commandButtonControlD.style,
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`
+            left:
+              this.selectedAreaStyle.width === "0px"
+                ? e.offsetX
+                : this.selectedAreaStyle.left,
+            top:
+              this.selectedAreaStyle.width === "0px"
+                ? e.offsetY
+                : this.selectedAreaStyle.top,
+            width:
+              this.selectedAreaStyle.width === "0px"
+                ? labelControlD.style.width
+                : this.selectedAreaStyle.width,
+            height:
+              this.selectedAreaStyle.height === "0px"
+                ? labelControlD.style.height
+                : this.selectedAreaStyle.height,
           }
         };
-        this.$emit("addControl", tool, pos);
+        this.$emit("addControl", tool, modal.id);
       }
-      /* else if (this.selectedControl == "input") {
-        console.log("kkk");
-        const tool = {
-          id: this.userForms[pos - 1].controls.length + 1,
-          name: "Input",
-          type: "input",
-          attributes: {
-            value: "Good Morning"
-          },
-          style: {
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`,
-            width: "100px",
-            height: "40px",
-            resize: "both",
-            overflow: "auto",
-            zIndex: "1",
-            border: "1px solid black"
-          }
-        };
-        
-        this.$emit("addControl", tool, pos);
-      } */
     }
   }
 };

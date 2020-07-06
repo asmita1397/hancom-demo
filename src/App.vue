@@ -45,12 +45,12 @@
             @makeActive="makeActive"
             @closeWindow="closeWindow"
             :userForms="root.userForms[0].userForms"
-            :selectedControl="selectedControl"
+            selectedControl="selectedControl"
             @addControl="addControl"
             @innerWindowResize="innerWindowResize"
           />
 
-          <ToolBox @selectedTool="selectedTool" :prevModalZIndex="prevModalZIndex" />
+          <ToolBox @selectedTool="selectedTool" prevModalZIndex="prevModalZIndex" />
         </div>
       </div>
     </div>
@@ -75,14 +75,7 @@ export default {
   components: {
     TreeBrowser,
     UserFormPropertiesList,
-    // SelectDropdown,
-    // DesignPanel
-    // Sidebar
     Header,
-    // Splitpanes
-    // userFormTable
-    // LabelControlTable
-
     ToolBox,
     UserForm
   },
@@ -122,7 +115,14 @@ export default {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
         name: "UserForm" + (this.root.userForms[0].userForms.length + 1),
-        type: "UserForm"
+        type: "UserForm",
+        outerWindowStyle: {
+          ...initialUserFormD.outerWindowStyle,
+          container: {
+            ...initialUserFormD.outerWindowStyle.container,
+            zIndex: ++this.prevModalZIndex
+          }
+        }
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
@@ -164,7 +164,6 @@ export default {
       console.log("modal of close", modal.id);
       for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
         if (this.root.userForms[0].userForms[i].id == modal.id) {
-          /*   console.log(this.userForms[i]); */
           this.root.userForms[0].userForms[
             i
           ].outerWindowStyle.container.display = "none";
@@ -173,7 +172,6 @@ export default {
       }
     },
     selectedTool(tool) {
-      /* console.log(this.selectedControl); */
       this.selectedControl = tool;
     }
   }
@@ -198,31 +196,9 @@ export default {
   top: 0%;
   width: 250px;
   background-color: #cdd4db;
-  /* padding-bottom: 8px; */
   margin-bottom: 8px;
 }
 
-/* SplitPanes */
-/* body {
-  background: royalblue;
-}
-.splitpanes__pane {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
-}
-
-.splitpanes__pane > span,
-.splitpanes__pane > div,
-.splitpanes__pane > p {
-  font-family: Arial, Helvetica, sans-serif;
-  color: royalblue;
-  font-size: 48pt;
-  opacity: 0.6;
-} */
-
-/* New */
 hr {
   margin-block-start: 0em;
   margin-block-end: 0em;
@@ -239,19 +215,13 @@ hr {
   border: 2px solid grey;
 }
 
-/* headers */
 .sideheader1 {
   top: 0%;
   width: 250px;
-  /* background-color: #cdd4db; */
-  /* padding-bottom: 8px; */
-  /* background: "linear-gradient(30deg,#adc9e7ba 0%,#a2b4cee6 50%,#9eadd0db 51%,#a1bdd28f 100%)"; */
   background-color: rgb(142, 191, 231);
   margin-bottom: 8px;
 }
 .sideheader {
-  /* background-color: #cdd4db;  */
-  /* background: "linear-gradient(30deg,#adc9e7ba 0%,#a2b4cee6 50%,#9eadd0db 51%,#a1bdd28f 100%)"; */
   height: 22px;
   text-align: left;
   padding: 0pc;

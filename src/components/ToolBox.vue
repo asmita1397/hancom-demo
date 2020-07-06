@@ -311,7 +311,6 @@ export default {
   methods: {
     dragMouseDown: function(event) {
       event.preventDefault();
-      // get the mouse cursor position at startup:
       this.positions.clientX = event.clientX;
       this.positions.clientY = event.clientY;
       document.onmousemove = this.elementDrag;
@@ -323,7 +322,6 @@ export default {
       this.positions.movementY = this.positions.clientY - event.clientY;
       this.positions.clientX = event.clientX;
       this.positions.clientY = event.clientY;
-      // set the element's new position:
       this.$refs.draggableContainer.style.top =
         this.$refs.draggableContainer.offsetTop -
         this.positions.movementY +
@@ -342,7 +340,7 @@ export default {
       console.log(this.isActive);
       console.log(e.target.name);
       console.log("tool", e.target.name);
-       
+
       this.$emit("selectedTool", e.target.name);
     },
     handleClose() {
@@ -389,8 +387,7 @@ button {
 }
 
 .close {
- 
- height:26px;
+  height: 26px;
 }
 .closeButton {
   position: absolute;
