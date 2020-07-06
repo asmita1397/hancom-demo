@@ -115,7 +115,14 @@ export default {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
         name: "UserForm" + (this.root.userForms[0].userForms.length + 1),
-        type: "UserForm"
+        type: "UserForm",
+        outerWindowStyle: {
+          ...initialUserFormD.outerWindowStyle,
+          container: {
+            ...initialUserFormD.outerWindowStyle.container,
+            zIndex: ++this.prevModalZIndex
+          }
+        }
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
@@ -192,7 +199,6 @@ export default {
   margin-bottom: 8px;
 }
 
-
 hr {
   margin-block-start: 0em;
   margin-block-end: 0em;
@@ -208,7 +214,6 @@ hr {
   overflow-x: hidden;
   border: 2px solid grey;
 }
-
 
 .sideheader1 {
   top: 0%;

@@ -30,75 +30,79 @@
     "whatsThisHelp": false,
     "controls": [],
     "outerWindowStyle": {
-        "container": {
-            "position": "absolute",
-            "textAlign": "left",
-            "border": "3px solid rgb(159, 196, 224)",
-            "width": "600px",
-            "height": "400px",
-            "borderTopLeftRadius": "4px",
-            "borderTopRightRadius": "4px",
-            "backgroundColor": "white",
-            "display": "block",
-            "zIndex": "2",
-            "top": "50px",
-            "left": "50px"
-        },
-        "top": {
-            "padding": "8px",
-            "background": "linear-gradient(30deg, rgb(195, 220, 236) 0%, rgb(152, 192, 215) 50%, rgb(137, 193, 226) 51%, rgba(161, 189, 210, 0.56) 100%)",
-            "height": "21px"
-        },
-        "closeButton": {
-            "right": "10px",
-            "position": "absolute",
-            "backgroundColor": "red"
-        },
-        "closeButton:hover": {
-            "backgroundColor": "green"
-        }
+      "container": {
+        "position": "absolute",
+        "textAlign": "left",
+        "border": "3px solid rgb(159, 196, 224)",
+        "width": "700px",
+        "height": "400px",
+        "borderTopLeftRadius": "4px",
+        "borderTopRightRadius": "4px",
+        "backgroundColor": "white",
+        "display": "block",
+        "zIndex": "2",
+        "top": "50px",
+        "left": "50px",
+        "resize": "both",
+        "overflow": "hidden",
+        "minHeight":"300px",
+        "minWidth":"500px"
+      },
+      "top": {
+        "padding": "8px",
+        "background": "linear-gradient(30deg, rgb(195, 220, 236) 0%, rgb(152, 192, 215) 50%, rgb(137, 193, 226) 51%, rgba(161, 189, 210, 0.56) 100%)",
+        "height": "21px"
+      },
+      "closeButton": {
+        "right": "10px",
+        "position": "absolute",
+        "backgroundColor": "red"
+      },
+      "closeButton:hover": {
+        "backgroundColor": "green"
+      }
     },
     "innerWindowStyle": {
-        "container": {
-            "position": "relative",
-            "textAlign": "left",
-            "border": "3px solid rgb(159, 196, 224)",
-            "width": "375px",
-            "height": "200px",
-            "resize": "both",
-            "overflow": "auto",
-            "borderTopLeftRadius": "4px",
-            "borderTopRightRadius": "4px",
-            "borderStyle": "groove",
-            "maxWidth": "100%",
-            "maxHeight": "350px",
-            "margin": "4px",
-            "backgroundColor": "whitesmoke",
-            "borderColor": "rgb(159, 196, 224)",
-            "fontStyle": "Arial, Helvetica, sans-serif",
-            "color": "black",
-            "left": "0",
-            "top": "0",
-            "zoom": "100%"
-        },
-        "top": {
-            "padding": "8px",
-            "background": "linear-gradient(30deg, rgb(195, 220, 236) 0%, rgb(152, 192, 215) 50%, rgb(137, 193, 226) 51%, rgba(161, 189, 210, 0.56) 100%)",
-            "height": "21px"
-        },
-        "innerContainer": {
-            "width": "100%",
-            "height": "calc(100% - 37px)",
-            "backgroundColor": "#e3e3e357",
-            "position": "absolute",
-            "left": "0px",
-            "top": "37px",
-            "backgroundSize": " 9px 10px",
-            "backgroundImage": "radial-gradient(circle, rgb(0, 0, 0) 0.5px, rgba(0, 0, 0, 0) 0.2px)"
-        },
-        "closeButton": {
-            "right": "10px",
-            "position": "absolute"
-        }
+      "container": {
+        "position": "relative",
+        "textAlign": "left",
+        "border": "3px solid rgb(159, 196, 224)",
+        "width": "400px",
+        "height": "250px",
+        "resize": "both",
+        "overflow": "hidden",
+        "borderTopLeftRadius": "4px",
+        "borderTopRightRadius": "4px",
+        "borderStyle": "groove",
+        "maxWidth": "98%",
+        "maxHeight": "88%",
+        "margin": "4px",
+        "backgroundColor": "whitesmoke",
+        "borderColor": "rgb(159, 196, 224)",
+        "fontStyle": "Arial, Helvetica, sans-serif",
+        "color": "black",
+        "left": "0",
+        "top": "0",
+        "zoom": "100%"
+      },
+      "top": {
+        "padding": "8px",
+        "background": "linear-gradient(30deg, rgb(195, 220, 236) 0%, rgb(152, 192, 215) 50%, rgb(137, 193, 226) 51%, rgba(161, 189, 210, 0.56) 100%)",
+        "height": "21px"
+      },
+      "innerContainer": {
+        "width": "100%",
+        "height": "calc(100% - 37px)",
+        "backgroundColor": "#e3e3e357",
+        "position": "absolute",
+        "left": "0px",
+        "top": "37px",
+        "backgroundSize": " 9px 10px",
+        "backgroundImage": "radial-gradient(circle, rgb(0, 0, 0) 0.5px, rgba(0, 0, 0, 0) 0.2px)"
+      },
+      "closeButton": {
+        "right": "10px",
+        "position": "absolute"
+      }
     }
-}
+  }
