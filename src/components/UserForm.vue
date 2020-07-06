@@ -123,7 +123,7 @@ export default {
     },
     onOuterWindowResize(e, modal) {
       modal.outerWindowStyle.container.width = e.detail.width;
-      modal.userForms[i].outerWindowStyle.container.height = e.detail.height;
+      modal.outerWindowStyle.container.height = e.detail.height;
     },
     make(modal) {
       this.$emit("makeActive", modal);
