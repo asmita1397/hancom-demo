@@ -6,47 +6,38 @@
         <hr class="hr" />
       </div>
       <div class="mainbody">
-        <div class="left">
-          <div class="sidenav">
+        <div class="left"></div>
+        <div class="sidenav">
+          <div class="sideheader">
+            <span class="sideheader1">
+              Project - VBAProject
+              <button style="float:right">
+                <b>X</b>
+              </button>
+            </span>
+          </div>
+
+          <div>
+            <i class="material-icons">&#xe2c8;</i>
+          </div>
+          <hr />
+
+          <div>
+            <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
+            <hr />
+
             <div class="sideheader">
               <span class="sideheader1">
-<<<<<<< HEAD
                 Properties - {{this.selectedUserForm&&this.selectedUserForm.name}}
                 <button
                   style="float:right"
                 >
-=======
-                Project - VBAProject
-                <button style="float:right">
->>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
                   <b>X</b>
                 </button>
               </span>
             </div>
 
-<<<<<<< HEAD
             <UserFormPropertiesList />
-=======
-            <div>
-              <i class="material-icons">&#xe2c8;</i>
-            </div>
-            <hr />
-
-            <div>
-              <TreeBrowser :node="root" @onClick="nodeWasClicked" style="cursor:pointer;" />
-              <hr />
-
-              <div class="sideheader">
-                <span class="sideheader1">
-                  Properties - UserForm1
-                  <button style="float:right">
-                    <b>X</b>
-                  </button>
-                </span>
-              </div>
-              <UserFormPropertiesList />
-            </div>
->>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
           </div>
         </div>
         <div class="right">
@@ -101,26 +92,9 @@ export default {
       selected: false,
       selectedUserForm: {},
       selectedControl: "",
-      prevModalZIndex: 2,
+      prevModalZIndex: "",
       root: treeUserFormData
     };
-  },
-  mounted() {
-    EventBus.$on(
-      "validateUserFormName",
-      (selectedForm, newUserName, resolve, reject) => {
-        console.log("RRR", this.root.userForms[0].userForms[0].name);
-        for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
-          if (this.root.userForms[0].userForms[i].name === newUserName) {
-            let oldv = selectedForm.name;
-            selectedForm.name = oldv;
-            reject("Failed");
-          }
-        }
-        selectedForm.name = newUserName;
-        resolve("Success");
-      }
-    );
   },
   methods: {
     nodeWasClicked(node) {
@@ -147,21 +121,8 @@ export default {
       let userForm = {
         ...initialUserFormD,
         id: this.root.userForms[0].userForms.length + 1,
-<<<<<<< HEAD
         name: "UserForm" + (this.root.userForms[0].userForms.length + 1),
-        type: "UserForm",
-        caption: "UserForm" + (this.root.userForms[0].userForms.length + 1)
-=======
-        name: "UserForm",
-        type: "UserForm",
-        outerWindowStyle: {
-          ...initialUserFormD.outerWindowStyle,
-          container: {
-            ...initialUserFormD.outerWindowStyle.container,
-            zIndex: ++this.prevModalZIndex
-          }
-        }
->>>>>>> 1c439b01cebc5cd5548d35b4b051b5bcfee1361e
+        type: "UserForm"
       };
       this.root.userForms[0].userForms = [
         ...this.root.userForms[0].userForms,
@@ -219,7 +180,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -268,7 +229,7 @@ hr {
 }
 .sidenav {
   height: 90%;
-  width: inherit;
+  width: 350px;
   position: fixed;
   z-index: 1;
   top: 5;
@@ -303,18 +264,18 @@ hr {
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  padding-left: 5px;
+  padding-top: 20px;
 }
 
 .right {
   right: 0;
   background-color: #80888e;
   height: 100%;
-  width: 69%;
+  width: 73%;
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  
+  padding-top: 20px;
 }
 .container {
   width: 100%;

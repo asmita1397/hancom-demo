@@ -7,6 +7,7 @@
       name="selectedUserForm"
       id="selectedUserForm"
       v-model="selectedOption"
+      @change="handleSelectedOption(selectedUserForm,selectedOption)"
     >
       <option :value="selectedUserForm" :selected="true">{{ selectedUserForm.name }}</option>
       <option v-for="control in selectedUserForm.controls" :value="control" :key="control.id">
@@ -65,7 +66,12 @@ export default {
   //   if (this.selectedOption.type === "UserForm")
   //     this.selectedOption = this.selectedUserForm;
   // },
-  methods: {},
+  methods: {
+    handleSelectedOption(selectedUserForm,selectedOption)
+    {
+      EventBus.$emit('selectedControlOption',selectedUserForm,selectedOption)
+    }
+  },
   data() {
     return {
       selectedUserForm: {},

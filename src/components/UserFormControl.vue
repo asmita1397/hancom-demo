@@ -6,6 +6,7 @@
           :style="{zIndex:control.style.zIndex}"
           v-for="control in modal.controls"
           :key="control.id"
+          :id="control.id"
           :w="parseInt(control.style.width)"
           :h="parseInt(control.style.height)"
           :x="parseInt(control.style.left)"

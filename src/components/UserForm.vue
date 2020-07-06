@@ -23,11 +23,19 @@
             <!--   </button> -->
           </div>
           <div
-            ref="pos"
+            @mouseup="handleMouseUp(modal.name)"
             :style="modal.innerWindowStyle.innerContainer"
             @click="createTool($event,modal.id)"
+             @mousedown="handleMouseDown(modal.name)"
           >
-            <UserFormControl :modal="modal" />
+            <drag-selector
+              v-model="checkedList"
+              @change="handleDragSelectorChange"
+              class="drag-selector"
+              ref="dragselector"
+            >
+              <UserFormControl :modal="modal" :ref="modal.name" />
+            </drag-selector>
           </div>
         </div>
       </div>
@@ -44,6 +52,8 @@ import UserFormControl from "./UserFormControl";
 import OuterWindowButton from "./OuterWindowButton.vue";
 import labelControl from "./models/labelControl";
 import commandButtonControl from "./models/commandButtonControl";
+import { EventBus } from "./event-bus.js";
+
 export default {
   name: "UserForm",
   components: {
@@ -55,8 +65,41 @@ export default {
     return {
       refer: "",
       labelControlData: labelControl,
-      commandButtonControlData: commandButtonControl
+      commandButtonControlData: commandButtonControl,
+      selectedAreaStyle: ""
     };
+  },
+  mounted() {
+    EventBus.$on(
+      "selectedControlOption",
+      (selectedForm, selectedControlOption) => {
+        let userFormControlRef = this.$refs;
+ 
+        for(let i=0; i<this.userForms.length; i++)
+        {
+           console.log(userFormControlRef[this.userForms[i].name])
+           for(let j=0; j<this.userForms[i].controls.length; j++)
+           {
+                    userFormControlRef[this.userForms[i].name][0].$children[j].active=false;
+           }
+        }
+
+        for (let key in userFormControlRef) {
+          if (key === selectedForm.name) {
+            console.log("=================================================");
+            console.log(userFormControlRef[key][0].$children);
+            for (let i = 0; i < userFormControlRef[key][0].$children.length;i++) {
+              if (
+                userFormControlRef[key][0].$children[i].$attrs.id ===
+                selectedControlOption.id
+              ) {
+                userFormControlRef[key][0].$children[i].active = true;
+              }
+            }
+          }
+        }
+      }
+    );
   },
   props: {
     userForms: Array,
@@ -64,6 +107,18 @@ export default {
   },
 
   methods: {
+     handleMouseDown() {
+   
+     
+ 
+    },
+    handleMouseUp() {
+      console.log(this.$refs.dragselector[0].selectAreaStyle);
+      if (this.selectedControl != "") {
+        this.selectedAreaStyle = this.$refs.dragselector[0].selectAreaStyle;
+      }
+    },
+
     onResize(e, userFormId) {
       this.$emit("innerWindowResize", e.detail, userFormId);
     },
@@ -100,8 +155,10 @@ export default {
           id: this.userForms[pos - 1].controls.length + 1,
           style: {
             ...labelControl.style,
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`
+            left: this.selectedAreaStyle.left,
+            top: this.selectedAreaStyle.top,
+            width: this.selectedAreaStyle.width==="0px"? labelControlD.style.width:this.selectedAreaStyle.width,
+            height: this.selectedAreaStyle.height==="0px"? labelControlD.style.height:this.selectedAreaStyle.height
           }
         };
 
@@ -110,41 +167,21 @@ export default {
         let commandButtonControlD = JSON.parse(
           JSON.stringify(this.commandButtonControlData)
         );
-        /* console.log("kkk"); */
+        
         const tool = {
           ...commandButtonControlD,
           id: this.userForms[pos - 1].controls.length + 1,
           style: {
             ...commandButtonControlD.style,
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`
+            left: this.selectedAreaStyle.left,
+            top: this.selectedAreaStyle.top,
+            width: this.selectedAreaStyle.width==="0px"? labelControlD.style.width:this.selectedAreaStyle.width,
+            height: this.selectedAreaStyle.height==="0px"? labelControlD.style.height:this.selectedAreaStyle.height
           }
         };
         this.$emit("addControl", tool, pos);
       }
-      /* else if (this.selectedControl == "input") {
-        console.log("kkk");
-        const tool = {
-          id: this.userForms[pos - 1].controls.length + 1,
-          name: "Input",
-          type: "input",
-          attributes: {
-            value: "Good Morning"
-          },
-          style: {
-            left: `${e.layerX}px`,
-            top: `${e.layerY}px`,
-            width: "100px",
-            height: "40px",
-            resize: "both",
-            overflow: "auto",
-            zIndex: "1",
-            border: "1px solid black"
-          }
-        };
-        
-        this.$emit("addControl", tool, pos);
-      } */
+      
     }
   }
 };
