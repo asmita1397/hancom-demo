@@ -1,7 +1,7 @@
 {
-    "Button Text":"darkslateblue",
-    "Button Face":"white",
-    "Highlight Text":"blanchedalmond",
-    "Highlight":"blue",
-    "Menu Bar":"ghostwhite"
+  "Menu Bar": "ghostwhite",
+  "Button Text": "darkslateblue",
+  "Button Face": "white",
+  "Highlight Text": "blanchedalmond",
+  "Highlight": "blue"
 }

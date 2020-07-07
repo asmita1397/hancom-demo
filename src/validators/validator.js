@@ -9,7 +9,6 @@ export const validators = {
           e.target.value;
         return;
       } else {
-        alert("Overflow");
         selectedUserForm.innerWindowStyle.container[updateProperty] = -9830;
         return;
       }
@@ -29,7 +28,48 @@ export const validators = {
       )
         .toString()
         .concat("px");
-      alert("Overflow");
+    }
+  },
+  sizeValidateForControls: function(e, selectedUserForm, updateProperty) {
+    let initialValue = selectedUserForm.style[updateProperty];
+    let length = e.target.value.length;
+    if (length <= 8 && parseInt(e.target.value) >= 0) {
+      selectedUserForm.style[updateProperty] = e.target.value
+        .toString()
+        .concat("px");
+    } else {
+      selectedUserForm.style[updateProperty] = (parseInt(initialValue) + 1)
+        .toString()
+        .concat("px");
+      selectedUserForm.style[updateProperty] = (
+        parseInt(selectedUserForm.style[updateProperty]) - 1
+      )
+        .toString()
+        .concat("px");
+    }
+  },
+  zoomValidate: function(e, selectedUserForm, updateProperty) {
+    let initialValue =
+      selectedUserForm.innerWindowStyle.container[updateProperty];
+
+    if (updateProperty === "zoom") {
+      if (parseInt(e.target.value) > 10 && parseInt(e.target.value) <= 400) {
+        selectedUserForm.innerWindowStyle.container[
+          updateProperty
+        ] = e.target.value.toString().concat("%");
+        return;
+      } else {
+        selectedUserForm.innerWindowStyle.container[updateProperty] = (
+          parseInt(initialValue) + 1
+        )
+          .toString()
+          .concat("%");
+        selectedUserForm.innerWindowStyle.container[updateProperty] = (
+          parseInt(selectedUserForm.innerWindowStyle.container.zoom) - 1
+        )
+          .toString()
+          .concat("%");
+      }
     }
   },
 };

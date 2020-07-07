@@ -27,14 +27,10 @@
           </select>
         </td>
       </tr>
-      <!-- Not Working -->
       <tr>
         <td>BorderStyle</td>
         <td>
-          <select
-            v-model="selectedUserForm.innerWindowStyle.container.border"
-            @change="handleBorderStyle(selectedUserForm.innerWindowStyle.container.border)"
-          >
+          <select v-model="selectedUserForm.innerWindowStyle.container.border">
             <option v-for="(item,key) in borderStyle" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -67,8 +63,8 @@
         <td>Enabled</td>
         <td>
           <select v-model="selectedUserForm.enabled">
-            <option selected>True</option>
-            <option>False</option>
+            <option :value="true" selected>True</option>
+            <option :value="false">False</option>
           </select>
         </td>
       </tr>
@@ -131,7 +127,7 @@
       <tr>
         <td>MouseIcon</td>
         <td>
-          <input type="file" />
+          <input type="file" accept=".ico" />
         </td>
       </tr>
       <tr>
@@ -145,7 +141,7 @@
       <tr>
         <td>Picture</td>
         <td>
-          <input type="file" />
+          <input type="file" accept=".png, .jpg, .jpeg, .ico" />
         </td>
       </tr>
       <tr>
@@ -168,8 +164,8 @@
         <td>PictureTiling</td>
         <td>
           <select v-model="selectedUserForm.pictureTiling">
-            <option selected>False</option>
-            <option>True</option>
+            <option :value="false" selected>False</option>
+            <option :value="true">True</option>
           </select>
         </td>
       </tr>
@@ -222,8 +218,8 @@
         <td>ShowModal</td>
         <td>
           <select v-model="selectedUserForm.showModal">
-            <option selected>True</option>
-            <option>False</option>
+            <option :value="true" selected>True</option>
+            <option :value="false">False</option>
           </select>
         </td>
       </tr>
@@ -267,8 +263,8 @@
             v-model="selectedUserForm.whatsThisButton"
             @change="handleWhatsThis(selectedUserForm.whatsThisButton)"
           >
-            <option selected>False</option>
-            <option>True</option>
+            <option :value="true">True</option>
+            <option :value="false" selected>False</option>
           </select>
         </td>
       </tr>
@@ -276,8 +272,8 @@
         <td>WhatsThisHelp</td>
         <td>
           <select v-model="selectedUserForm.whatsThisButton">
-            <option selected>False</option>
-            <option>True</option>
+            <option :value="true">True</option>
+            <option :value="false" selected>False</option>
           </select>
         </td>
       </tr>
@@ -297,15 +293,15 @@
         <td>
           <input
             type="number"
-            :value="selectedUserForm.innerWindowStyle.container.zoom"
-            @input="zoomValidate"
+            :value="selectedUserForm.innerWindowStyle.container.zoom | sizeFilter"
+            @change="validators.zoomValidate($event,selectedUserForm,'zoom')"
+            @keyup.enter="validators.zoomValidate($event,selectedUserForm,'zoom')"
           />
         </td>
       </tr>
     </table>
   </div>
 </template>
-
 <script>
 import backColor from "./models/backColor.json";
 import borderColor from "./models/borderColor.json";
@@ -354,40 +350,23 @@ export default {
   methods: {
     nameValidate() {},
     drawBufferValidate(data) {
-      //
-      // let length = data;
-
-      console.log("outside");
-      console.log(data);
       if (data > 16000 && data <= 1048576) {
         this.selectedUserForm.drawBuffer = data;
-        console.log(this.selectedUserForm.drawBuffer);
       } else {
         this.selectedUserForm.drawBuffer = this.previousDrawBuffer;
       }
     },
 
-    handleBorderStyle(data) {
-      console.log(data);
-    },
     helpContextIdValidate(data) {
-      // <2147000000
-      console.log(data);
       if (data > 2147000000) {
-        alert("invalid property value");
         this.selectedUserForm.helpContextId = this.previoushelpContextId;
       }
     },
-    rightToLeft(e) {
-      console.log("event right2left", e);
-    },
+
     scrollHeightValidate() {},
     scrollLeftValidate() {},
     scrollTopValidate() {},
     scrollWidthValidate() {},
-    handleWhatsThis(whatsThisButton) {
-      console.log("whatsThisButton  ", whatsThisButton);
-    },
     zoomValidate() {}
   }
 };
@@ -400,14 +379,12 @@ export default {
 table,
 th,
 td {
-  /* table-layout: fixed; */
   margin-right: 0%;
   width: 100%;
   border: 1px solid black;
   border-collapse: collapse;
   font-size: 11px;
   font-display: initial;
-  /* font: Tahoma; */
   color: black;
 }
 th,
@@ -431,7 +408,11 @@ label {
   float: left;
 }
 select {
-  width: 100%;
+  width: 166px;
+  padding: 1px 2px;
+}
+input {
+  width: 158px;
 }
 
 /* Must be added as style for the new data */

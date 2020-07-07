@@ -5,6 +5,7 @@
       :id="control.id"
       :key="control.id"
       :title="control.title"
+      :tabindex="control.tabindex"
       :style="control.style"
       @mousedown="customInputClick($event)"
       :v-model="control.caption"
@@ -24,10 +25,6 @@ export default {
     modal: Object
   },
   methods: {
-    trigger(e) {
-      console.log(e);
-      alert("Hello boss");
-    },
     customInputClick() {
       this.modal.controlZIndex = ++this.modal.controlZIndex;
       this.control.style.zIndex = this.modal.controlZIndex.toString();

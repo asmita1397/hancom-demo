@@ -30,11 +30,9 @@
             @mouseup="handleMouseUp(modal.name)"
             :style="modal.innerWindowStyle.innerContainer"
             @click="createTool($event,modal)"
-            @mousedown="handleMouseDown(modal.name)"
           >
             <drag-selector
               v-model="checkedList"
-              @change="handleDragSelectorChange"
               class="drag-selector"
               :ref="'dragselector'.concat(modal.name)"
             >
@@ -65,6 +63,7 @@ export default {
   },
   data() {
     return {
+      checkedList: [],
       refer: "",
       labelControlData: labelControl,
       commandButtonControlData: commandButtonControl,
@@ -170,7 +169,6 @@ export default {
                 : this.selectedAreaStyle.height
           }
         };
-        console.log("tool", tool);
         this.$emit("addControl", tool, modal.id);
       } else if (this.selectedControl === "commandbutton") {
         let commandButtonControlD = JSON.parse(

@@ -17,12 +17,10 @@
         @onClick="(node) => $emit('onClick',node)"
       />
     </ul>
-    <!-- <Prop :node="root" @onClick="nodeWasClicked" /> -->
   </div>
 </template>
 
 <script>
-// import Prop from "./Prop.vue";
 export default {
   name: "TreeBrowser",
   props: {
@@ -58,7 +56,6 @@ export default {
 
 <style scoped>
 .tree {
-  /* min-height: 300px; */
   width: 300px;
   position: initial;
   z-index: 1;
@@ -77,7 +74,6 @@ ul {
   margin-inline-end: 0px;
   padding-inline-start: 40px;
   cursor: pointer;
-  /* color: darkslateblue; */
 }
 </style>
 

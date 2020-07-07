@@ -35,7 +35,6 @@ export default {
      
     handleClick() {
       
-       console.log(this.count++)
       var ComponentClass = Vue.extend(UserForm);
       var instance = new ComponentClass({
         propsData: { show: true,  name:this.count }
@@ -47,7 +46,6 @@ export default {
     },
     handleLabel(data)
     {
-        console.log("kkkkkk",data)
           this.$emit('testMethod',data)
     }
    

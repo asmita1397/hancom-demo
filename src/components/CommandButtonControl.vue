@@ -5,76 +5,75 @@
       <button class="button">Categorized</button>
     </div>
     <table class="table">
-      <!-- <caption class="caption">Properties</caption> -->
       <tr>
         <td>(Name)</td>
         <td>
-          <input type="text" :value="name" />
+          <input type="text" :value="selectedUserForm.name" />
         </td>
       </tr>
       <tr>
         <td>Accelerator</td>
         <td>
-          <input type="text" :value="accelerator" />
+          <input type="text" :value="selectedUserForm.accelerator" />
         </td>
       </tr>
       <tr>
         <td>AutoSize</td>
         <td>
-          <select :value="autosize">
-            <option selected>False</option>
-            <option>True</option>
+          <select v-model="selectedUserForm.autoSize">
+            <option selected :value="false">False</option>
+            <option :value="true">True</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>BackColor</td>
         <td>
-          <select :value="backColor">
+          <select v-model="selectedUserForm.style.backgroundColor">
             <option v-for="(item,key) in backColor" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>BackStyle</td>
-        <select :value="backStyle">
+        <select v-model="selectedUserForm.style.backgroundColor">
           <option v-for="(item,key) in backStyle" :key="key" :value="item">{{key}}</option>
         </select>
       </tr>
       <tr>
         <td>Caption</td>
         <td>
-          <input type="text" :value="caption" />
+          <input type="text" v-model="selectedUserForm.caption" />
         </td>
       </tr>
       <tr>
         <td>ControlTipText</td>
         <td>
-          <input type="text" :value="controlTipText" />
+          <input type="text" v-model="selectedUserForm.title" />
         </td>
       </tr>
-      <!-- <tr>
-      <td>Default</td>
-      <td>
-        <select :value="default">
+      <tr>
+        <td>Default</td>
+        <td>
+          <select :value="selectedUserForm.default">
             <option selected>true</option>
             <option>false</option>
           </select>
-      </td>
-      </tr>-->
+        </td>
+      </tr>
       <tr>
         <td>Enabled</td>
         <td>
-          <select :value="enabled">
-            <option selected>True</option>
-            <option>False</option>
+          <select v-model="selectedUserForm.enabled">
+            <option selected :value="true">True</option>
+            <option :value="false">False</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>Font</td>
         <td>
-          <select>
+          <select v-model="selectedUserForm.style.fontFamily">
             <option v-for="(value,key) in font" v-bind:value="value" :key="key">{{key}}</option>
           </select>
         </td>
@@ -82,7 +81,7 @@
       <tr>
         <td>ForeColor</td>
         <td>
-          <select>
+          <select v-model="selectedUserForm.style.color">
             <option v-for="(value,key) in foreColor" v-bind:value="value" :key="key">{{key}}</option>
           </select>
         </td>
@@ -90,25 +89,35 @@
       <tr>
         <td>Height</td>
         <td>
-          <input type="number" :value="height" />
+          <input
+            type="number"
+            :value="selectedUserForm.style.height | sizeFilter"
+            @change="validators.sizeValidateForControls($event,selectedUserForm,'height')"
+            @keyup.enter="validators.sizeValidateForControls($event,selectedUserForm,'height')"
+          />
         </td>
       </tr>
       <tr>
         <td>HelpContextId</td>
         <td>
-          <input type="number" :value="helpContextId" />
+          <input type="number" :value="selectedUserForm.helpContextId" />
         </td>
       </tr>
       <tr>
         <td>Left</td>
         <td>
-          <input type="number" :value="left" />
+          <input
+            type="number"
+            :value="selectedUserForm.style.left | sizeFilter"
+            @change="validators.sizeValidateForControls($event,selectedUserForm,'left')"
+            @keyup.enter="validators.sizeValidateForControls($event,selectedUserForm,'left')"
+          />
         </td>
       </tr>
       <tr>
         <td>Locked</td>
         <td>
-          <select :value="locked">
+          <select :value="selectedUserForm.locked">
             <option selected>True</option>
             <option>False</option>
           </select>
@@ -117,13 +126,13 @@
       <tr>
         <td>MouseIcon</td>
         <td>
-          <input type="text" :value="mouseIcon" />
+          <input type="file" />
         </td>
       </tr>
       <tr>
         <td>MousePointer</td>
         <td>
-          <select>
+          <select v-model="selectedUserForm.style.cursor">
             <option v-for="(value,key) in mousePointer" v-bind:value="value" :key="key">{{key}}</option>
           </select>
         </td>
@@ -131,13 +140,13 @@
       <tr>
         <td>Picture</td>
         <td>
-          <input type="text" :value="picture" />
+          <input type="file" />
         </td>
       </tr>
       <tr>
         <td>PicturePosition</td>
         <td>
-          <select>
+          <select v-model="selectedUserForm.picturePosition">
             <option v-for="(value,key) in picturePosition" v-bind:value="value" :key="key">{{key}}</option>
           </select>
         </td>
@@ -145,25 +154,28 @@
       <tr>
         <td>TabIndex</td>
         <td>
-          <input type="number" :value="tabIndex" />
+          <input type="number" :value="selectedUserForm.tabindex" />
         </td>
       </tr>
       <tr>
         <td>TabStop</td>
         <td>
-          <input type="text" :value="tabStop" />
+          <select v-model="selectedUserForm.tabStop">
+            <option :value="false" selected>False</option>
+            <option :value="true">True</option>
+          </select>
         </td>
       </tr>
       <tr>
         <td>Tag</td>
         <td>
-          <input type="text" :value="tag" />
+          <input type="text" :value="selectedUserForm.tag" />
         </td>
       </tr>
       <tr>
         <td>TakeFocusOnClick</td>
         <td>
-          <select :value="takeFocusOnClick">
+          <select :value="selectedUserForm.takeFocusOnClick">
             <option selected>True</option>
             <option>False</option>
           </select>
@@ -172,28 +184,41 @@
       <tr>
         <td>Top</td>
         <td>
-          <input type="number" :value="top" />
+          <input
+            type="number"
+            :value="selectedUserForm.style.top | sizeFilter"
+            @change="validators.sizeValidateForControls($event,selectedUserForm,'top')"
+            @keyup.enter="validators.sizeValidateForControls($event,selectedUserForm,'top')"
+          />
         </td>
       </tr>
       <tr>
         <td>Visible</td>
         <td>
-          <select :value="visible">
-            <option selected>True</option>
-            <option>False</option>
+          <select v-model="selectedUserForm.visible">
+            <option :value="false">False</option>
+            <option :value="true" selected>True</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>Width</td>
         <td>
-          <input type="number" :value="width" />
+          <input
+            type="number"
+            :value="selectedUserForm.style.width | sizeFilter"
+            @change="validators.sizeValidateForControls($event,selectedUserForm,'width')"
+            @keyup.enter="validators.sizeValidateForControls($event,selectedUserForm,'width')"
+          />
         </td>
       </tr>
       <tr>
         <td>WordWrap</td>
         <td>
-          <input type="text" :value="wordWrap" />
+          <select :v-model="selectedUserForm.wordWrap">
+            <option selected :value="false">False</option>
+            <option :value="true">True</option>
+          </select>
         </td>
       </tr>
     </table>
@@ -203,35 +228,33 @@
 <script>
 import backColor from "./models/backColor.json";
 import backStyle from "./models/backStyle.json";
-import borderColor from "./models/borderColor.json";
-import borderStyle from "./models/borderStyle.json";
 import font from "./models/font.json";
 import foreColor from "./models/foreColor.json";
 import mousePointer from "./models/mousePointer.json";
 import picturePosition from "./models/picturePosition.json";
 import specialEffect from "./models/specialEffect.json";
 import textAlign from "./models/textAlign.json";
+import { validators } from "../validators/validator";
 
 export default {
+  props: ["selectedUserForm"],
   data() {
     return {
+      validators: validators,
       backColor: backColor,
-      // root: userForms,
       backStyle: backStyle,
-      borderColor: borderColor,
-      borderStyle: borderStyle,
-      // cycle:cycle,
       font: font,
       foreColor: foreColor,
-      // keepScrollsBarsVisible:keepScrollsBarsVisible,
       mousePointer: mousePointer,
       picturePosition: picturePosition,
-      // pictureAlignment:pictureAlignment,
-      // scrollBars:scrollBars,
       specialEffect: specialEffect,
-      // startUpPosition:startUpPosition
       textAlign: textAlign
     };
+  },
+  filters: {
+    sizeFilter(value) {
+      return parseInt(value, 10);
+    }
   }
 };
 </script>
@@ -239,7 +262,6 @@ export default {
 <style scoped>
 table,
 td {
-  /* table-layout: fixed; */
   margin-right: 0%;
   width: 100%;
   border: 1px solid black;
@@ -253,9 +275,6 @@ td {
   text-align: left;
 }
 
-/* tr {
-  width: 50%;
-} */
 .form-control {
   float: left;
   width: 280px;

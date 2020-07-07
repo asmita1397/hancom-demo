@@ -11,7 +11,6 @@
       </drag-selector-item>
     </drag-selector>
     {{ checkedList }}
-  
   </div>
 </template>
 
@@ -30,9 +29,7 @@ export default {
     };
   },
   methods: {
-    handleDragSelectorChange(list) {
-      console.log("list", list);
-    }
+    handleDragSelectorChange() {}
   }
 };
 </script>
@@ -87,7 +84,4 @@ export default {
   background-color: #ff4081;
   text-decoration: none;
 }
-
-
-
 </style>

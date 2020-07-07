@@ -6,6 +6,8 @@
       :key="control.id"
       @mousedown="customInputClick()"
       :style="control.style"
+      :title="control.title"
+      :tabindex="control.tabindex"
       :v-model="control.caption"
       :value="control.caption"
       :disabled="!control.enabled"
@@ -24,11 +26,7 @@ export default {
     modal: Object
   },
   methods: {
-    trigger() {
-      alert("Hello");
-    },
     customInputClick() {
-      console.log("model", this.modal.controlZIndex);
       this.modal.controlZIndex = ++this.modal.controlZIndex;
       this.control.style.zIndex = this.modal.controlZIndex.toString();
       EventBus.$emit("userFormClicked", this.control, this.modal);

@@ -48,11 +48,8 @@
 
 <script>
 import TreeBrowser from "./components/TreeBrowser.vue";
-
 import UserFormPropertiesList from "./components/UserFormPropertiesList.vue";
-
 import Header from "./components/Header.vue";
-/*  */
 import treeUserFormData from "./components/models/treeUserFormData.json";
 import ToolBox from "./components/ToolBox";
 import UserForm from "./components/UserForm";
@@ -90,10 +87,12 @@ export default {
       );
     },
     innerWindowResize(e, userFormId) {
-      for (let i = 0; i < this.userForms.length; i++) {
-        if (this.userForms[i].id === userFormId) {
-          this.userForms[i].innerWindowStyle.container.width = e.width;
-          this.userForms[i].innerWindowStyle.container.height = e.height;
+      if (this.userForms) {
+        for (let i = 0; i < this.userForms.length; i++) {
+          if (this.userForms[i].id === userFormId) {
+            this.userForms[i].innerWindowStyle.container.width = e.width;
+            this.userForms[i].innerWindowStyle.container.height = e.height;
+          }
         }
       }
     },
@@ -128,33 +127,17 @@ export default {
         ...this.root.userForms[0].userForms[pos - 1].controls,
         tool
       ];
+      EventBus.$emit("setIsActive", "select");
       this.selectedControl = "";
     },
     makeActive(modal) {
       this.previousZindex = ++this.prevModalZIndex;
       modal.outerWindowStyle.container.zIndex = this.previousZindex.toString();
+      modal.outerWindowStyle.container.display = "block";
       EventBus.$emit("userFormClicked", modal, modal);
     },
-    openModal() {
-      for (let i = 0; i < this.userForms.length; i++) {
-        if (this.userForms[i].style.display === "block") {
-          this.userForms[i].style.display = "none";
-        } else {
-          this.userForms[i].style.display = "block";
-        }
-      }
-      this.show = !this.show;
-    },
     closeWindow(modal) {
-      console.log("modal of close", modal.id);
-      for (let i = 0; i < this.root.userForms[0].userForms.length; i++) {
-        if (this.root.userForms[0].userForms[i].id == modal.id) {
-          this.root.userForms[0].userForms[
-            i
-          ].outerWindowStyle.container.display = "none";
-          break;
-        }
-      }
+      modal.outerWindowStyle.container.display = "none";
     },
     selectedTool(tool) {
       this.selectedControl = tool;
@@ -177,8 +160,8 @@ hr {
   margin-block-end: 0em;
 }
 .sidenav {
-  height: 90%;
-  width: 350px;
+  height: 81%;
+  width: 330px;
   position: fixed;
   z-index: 1;
   top: 5;
@@ -214,7 +197,7 @@ hr {
   right: 0;
   background-color: #80888e;
   height: 100%;
-  width: 73%;
+  width: 77%;
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
