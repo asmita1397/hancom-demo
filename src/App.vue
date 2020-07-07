@@ -74,11 +74,13 @@ export default {
       selectedUserForm: {},
       selectedControl: "",
       prevModalZIndex: "",
-      root: treeUserFormData
+      root: treeUserFormData,
+      selected: false
     };
   },
   methods: {
     nodeWasClicked(node) {
+      this.selected = true;
       this.selectedUserForm = node;
       this.makeActive(node);
       EventBus.$emit(
@@ -161,7 +163,7 @@ export default {
 };
 </script>
 
-<style style="scoped">
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

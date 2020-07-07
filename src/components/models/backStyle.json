@@ -1,4 +1,4 @@
 {
-    "0 - fmBackStyleTransparent":"none",
-    "1 - fmBackStyleOpaque":""
+  "0 - fmBackStyleTransparent": "transparent",
+  "1 - fmBackStyleOpaque": "#eeeeee"
 }

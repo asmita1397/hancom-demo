@@ -4,7 +4,7 @@
       v-if="control"
       :id="control.id"
       :key="control.id"
-      @click.stop="customInputClick()"
+      @mousedown="customInputClick()"
       :style="control.style"
       :v-model="control.caption"
       :value="control.caption"
@@ -24,8 +24,8 @@ export default {
     modal: Object
   },
   methods: {
-    trigger(){
-      alert("Hello")
+    trigger() {
+      alert("Hello");
     },
     customInputClick() {
       console.log("model", this.modal.controlZIndex);

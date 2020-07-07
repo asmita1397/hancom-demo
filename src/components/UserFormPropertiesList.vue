@@ -1,14 +1,19 @@
 <template>
   <div>
-    <div class="sideheader">
-      <span class="sideheader1">
-        Properties - {{selectedUserForm&&selectedUserForm.name}}
-        <button style="float:right">
-          <b>X</b>
-        </button>
-      </span>
+    <div>
+      <div class="sideheader">
+        <span class="sideheader1">
+          Properties - {{this.selectedUserForm&&this.selectedUserForm.name}}
+          <button
+            style="float:right"
+          >
+            <b>X</b>
+          </button>
+        </span>
+      </div>
     </div>
     <div class="form-group">
+      <!-- <select-dropdown :userForm="userForms" v-if="selected" /> -->
       <label for="userForm"></label>
       <select
         class="form-control"
@@ -17,9 +22,12 @@
         v-model="selectedOption"
         @change="handleSelectedOption(selectedUserForm,selectedOption)"
       >
-        <option :value="selectedUserForm" :selected="true">{{ selectedUserForm.name }}</option>
+        <option
+          :value="selectedUserForm"
+          :selected="true"
+        >{{ selectedUserForm.name }} {{selectedUserForm.type}}</option>
         <option v-for="control in selectedUserForm.controls" :value="control" :key="control.id">
-          <b>{{ control.name }}</b>
+          <b>{{ control.name }} {{control.type}}</b>
         </option>
       </select>
 
@@ -62,21 +70,13 @@ export default {
   data() {
     return {
       selectedUserForm: {},
-      selectedOption: "",
-      selected: true
+      selectedOption: ""
     };
   }
 };
 </script>
 
 <style scoped>
-.form-control {
-  float: left;
-  width: 280px;
-  cursor: pointer;
-  background-color: white;
-}
-
 .sideheader1 {
   top: 0%;
   width: 250px;
@@ -88,5 +88,11 @@ export default {
   text-align: left;
   padding: 0pc;
   background-color: rgb(142, 191, 231);
+}
+.form-control {
+  float: left;
+  width: 280px;
+  cursor: pointer;
+  background-color: white;
 }
 </style>

@@ -30,6 +30,7 @@
 import CustomLabel from "./CustomLabel";
 import CustomButton from "./CustomButton";
 import VueDraggableResizable from "./vue-draggable-resizable";
+import { EventBus } from "./event-bus";
 
 export default {
   components: {
@@ -45,7 +46,7 @@ export default {
         position: "absolute",
         backgroundColor: ""
       },
-       deletingControlId: -1,
+      deletingControlId: -1,
       deletingUserFormId: -1,
       style: {
         zIndex: 20
@@ -56,27 +57,24 @@ export default {
     modal: Object
   },
   mounted() {
-    document.addEventListener("keydown", this.handleKeyDown);
+    document.addEventListener("keydown", this.deleteSingleControl);
   },
 
   methods: {
-    handleKeyDown(e) {
-      console.log(e);
-      if (e.keyCode === 8) {
-       
+    deleteSingleControl(e) {
+      if (e.keyCode === 46) {
         if (this.deletingUserFormId !== -1 && this.deletingControlId !== -1) {
-          console.log("==============", this.deletingUserFormId);
-          console.log("=============", this.deletingControlId);
-
           if (this.modal.id === this.deletingUserFormId) {
             this.modal.controls.splice(this.deletingControlId, 1);
+
             this.deletingControlId = -1;
             this.deletingUserFormId = -1;
+            EventBus.$emit("userFormClicked", this.modal, this.modal);
           }
         }
       }
     },
-     onDeactivated() {
+    onDeactivated() {
       this.deletingControlId = -1;
       this.deletingUserFormId = -1;
     },

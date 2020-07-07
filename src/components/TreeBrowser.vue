@@ -1,13 +1,15 @@
 <template >
   <div class="tree" style="min-height:'50px'">
     <div @click="nodeClicked" :style="{'margin-left': `${depth * 2}px`}" class="node">
-      <span v-if="hasChildren" class="type">{{expanded ? '&#9660;' : '&#9658;'}}</span>
-      <span class="type" v-else>&#9671;</span>
+      <span v-if="hasChildren" class="fa">{{expanded ? '[-] &#xf07c;' : '[+] &#xf07b;'}}</span>
+      <span class="type" v-else>
+        <i style="font-size:15px" class="fa">&#xf15c;</i>
+      </span>
       {{node.name}}
     </div>
 
     <ul v-if="expanded">
-      <TreeBrowser 
+      <TreeBrowser
         v-for="child in node.userForms"
         :key="child.name"
         :node="child"
@@ -44,7 +46,7 @@ export default {
       if (!this.hasChildren) {
         this.$emit("onClick", this.node);
       }
-    },
+    }
   },
   computed: {
     hasChildren() {
@@ -55,7 +57,7 @@ export default {
 </script>
 
 <style scoped>
-.tree{
+.tree {
   /* min-height: 300px; */
   width: 300px;
   position: initial;
@@ -67,15 +69,15 @@ export default {
   text-align: left;
 }
 ul {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 7px;
-    margin-block-end: 1px;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-    cursor:pointer;
-    /* color: darkslateblue; */
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 7px;
+  margin-block-end: 1px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  cursor: pointer;
+  /* color: darkslateblue; */
 }
 </style>
 

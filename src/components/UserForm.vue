@@ -4,7 +4,7 @@
       <div
         :style="modal.outerWindowStyle.container"
         ref="outerWindowContainerRef"
-        @click="make(modal)"
+        @mousedown="make(modal)"
         v-resize
         @resize="onOuterWindowResize($event,modal)"
       >
@@ -15,8 +15,11 @@
 
         <div :style="modal.innerWindowStyle.container" v-resize @resize="onResize($event,modal.id)">
           <div :style="modal.innerWindowStyle.top">
-            <span>{{modal.name}}</span>
-
+            <span v-bind:class="{ rightToLeft: modal.rightToLeft}">{{modal.caption}}</span>
+            <button
+              :style="modal.innerWindowStyle.whatsThisButton"
+              v-show="modal.whatsThisButton==='True'"
+            >?</button>
             <img
               class="close"
               :style="modal.innerWindowStyle.closeButton"
@@ -74,16 +77,11 @@ export default {
       (selectedForm, selectedControlOption) => {
         let userFormControlRef = this.$refs;
 
-        for (let i = 0; i < this.userForms.length; i++) {
-          for (let j = 0; j < this.userForms[i].controls.length; j++) {
-            userFormControlRef[this.userForms[i].name][0].$children[
-              j
-            ].active = false;
-          }
-        }
-
         for (let key in userFormControlRef) {
-          if (key === selectedForm.name) {
+          if (
+            key === selectedForm.name &&
+            selectedControlOption.type !== "UserForm"
+          ) {
             for (
               let i = 0;
               i < userFormControlRef[key][0].$children.length;
@@ -94,13 +92,14 @@ export default {
                 selectedControlOption.id
               ) {
                 userFormControlRef[key][0].$children[i].active = true;
+              } else {
+                userFormControlRef[key][0].$children[i].active = false;
               }
             }
           }
         }
       }
     );
-    console.log("selected area", this.$refs);
   },
   props: {
     userForms: Array,
@@ -108,7 +107,6 @@ export default {
   },
 
   methods: {
-    handleMouseDown() {},
     handleMouseUp(modal) {
       let dragRef = "dragselector".concat(modal);
       this.selectedAreaStyle = this.$refs[dragRef][0].selectAreaStyle;
@@ -150,8 +148,8 @@ export default {
         const tool = {
           ...labelControlD,
           id: modal.controls.length + 1,
-          name: "Label" + modal.controls.length + 1,
-          caption: "Label" + modal.controls.length + 1,
+          name: "Label".concat(modal.controls.length + 1),
+          caption: "Label".concat(modal.controls.length + 1),
           style: {
             ...labelControl.style,
             left:
@@ -182,8 +180,8 @@ export default {
         const tool = {
           ...commandButtonControlD,
           id: modal.controls.length + 1,
-          name: "CommandButton" + modal.controls.length + 1,
-          caption: "CommandButton" + modal.controls.length + 1,
+          name: "CommandButton".concat(modal.controls.length + 1),
+          caption: "CommandButton".concat(modal.controls.length + 1),
           style: {
             ...commandButtonControlD.style,
             left:
@@ -214,5 +212,9 @@ export default {
 <style scoped>
 img {
   width: 24px;
+}
+.rightToLeft {
+  float: right;
+  padding-right: 45px;
 }
 </style>

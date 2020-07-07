@@ -1,16 +1,14 @@
 <template>
   <div>
-    <br />
-    <div class="btn-group" style="float:left">
+    <div class="btn-group">
       <button class="button" default>Alphabetic</button>
       <button class="button">Categorized</button>
     </div>
     <table class="table">
-      <!-- <caption class="caption">Properties</caption> -->
       <tr>
         <td>(Name)</td>
         <td>
-          <input disabled type="text" :value="selectedUserForm.name" @input="validateUserFormName" />
+          <input type="text" v-model="selectedUserForm.name" @input="nameValidate" />
         </td>
       </tr>
       <tr>
@@ -29,10 +27,14 @@
           </select>
         </td>
       </tr>
+      <!-- Not Working -->
       <tr>
         <td>BorderStyle</td>
         <td>
-          <select v-model="selectedUserForm.innerWindowStyle.container.borderStyle">
+          <select
+            v-model="selectedUserForm.innerWindowStyle.container.border"
+            @change="handleBorderStyle(selectedUserForm.innerWindowStyle.container.border)"
+          >
             <option v-for="(item,key) in borderStyle" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -54,7 +56,11 @@
       <tr>
         <td>DrawBuffer</td>
         <td>
-          <input type="text" v-model="selectedUserForm.drawBuffer" />
+          <input
+            type="number"
+            v-model="selectedUserForm.drawBuffer"
+            @change="drawBufferValidate(selectedUserForm.drawBuffer)"
+          />
         </td>
       </tr>
       <tr>
@@ -85,13 +91,22 @@
       <tr>
         <td>Height</td>
         <td>
-          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.height" />
+          <input
+            type="number"
+            :value="selectedUserForm.innerWindowStyle.container.height | sizeFilter"
+            @change="validators.sizeValidate($event,selectedUserForm,'height')"
+            @keyup.enter="validators.sizeValidate($event,selectedUserForm,'height')"
+          />
         </td>
       </tr>
       <tr>
         <td>HelpContextId</td>
         <td>
-          <input type="number" v-model="selectedUserForm.helpContextId" />
+          <input
+            type="number"
+            v-model="selectedUserForm.helpContextId"
+            @change="helpContextIdValidate(selectedUserForm.helpContextId)"
+          />
         </td>
       </tr>
       <tr>
@@ -105,19 +120,24 @@
       <tr>
         <td>Left</td>
         <td>
-          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.left" />
+          <input
+            type="number"
+            :value="selectedUserForm.innerWindowStyle.container.left"
+            @change="validators.sizeValidate($event,selectedUserForm,'left')"
+            @keyup.enter="validators.sizeValidate($event,selectedUserForm,'left')"
+          />
         </td>
       </tr>
       <tr>
         <td>MouseIcon</td>
         <td>
-          <input type="text" v-model="selectedUserForm.mouseIcon" />
+          <input type="file" />
         </td>
       </tr>
       <tr>
         <td>MousePointer</td>
         <td>
-          <select v-model="selectedUserForm.mousePointer">
+          <select v-model="selectedUserForm.innerWindowStyle.container.cursor">
             <option v-for="(item,key) in mousePointer" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -125,7 +145,7 @@
       <tr>
         <td>Picture</td>
         <td>
-          <input type="text" v-model="selectedUserForm.picture" />
+          <input type="file" />
         </td>
       </tr>
       <tr>
@@ -147,7 +167,7 @@
       <tr>
         <td>PictureTiling</td>
         <td>
-          <select v-model="selectedUserForm.PictureTiling">
+          <select v-model="selectedUserForm.pictureTiling">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -156,9 +176,12 @@
       <tr>
         <td>RightToLeft</td>
         <td>
-          <select v-model="selectedUserForm.rightToLeft">
-            <option selected>False</option>
-            <option>True</option>
+          <select
+            v-model="selectedUserForm.rightToLeft"
+            @change="rightToLeft(selectedUserForm.rightToLeft)"
+          >
+            <option selected :value="false">False</option>
+            <option :value="true">True</option>
           </select>
         </td>
       </tr>
@@ -173,26 +196,26 @@
       <tr>
         <td>ScrollHeight</td>
         <td>
-          <input type="number" v-model="selectedUserForm.scrollHeight" />
+          <input type="number" :value="selectedUserForm.scrollHeight" @input="scrollHeightValidate" />
         </td>
       </tr>
       <tr>
         <td>ScrollLeft</td>
         <td>
-          <input type="number" v-model="selectedUserForm.scrollLeft" />
+          <input type="number" :value="selectedUserForm.scrollLeft" @input="scrollLeftValidate" />
         </td>
       </tr>
       <tr>
         <td>ScrollTop</td>
         <td>
-          <input type="number" v-model="selectedUserForm.scrollTop" />
+          <input type="number" :value="selectedUserForm.scrollTop" @input="scrollTopValidate" />
         </td>
       </tr>
 
       <tr>
         <td>ScrollWidth</td>
         <td>
-          <input type="number" v-model="selectedUserForm.scrollWidth" />
+          <input type="number" :value="selectedUserForm.scrollWidth" @input="scrollWidthValidate" />
         </td>
       </tr>
       <tr>
@@ -207,7 +230,7 @@
       <tr>
         <td>SpecialEffect</td>
         <td>
-          <select v-model="selectedUserForm.specialEffect">
+          <select v-model="selectedUserForm.innerWindowStyle.container.boxShadow">
             <option v-for="(item,key) in specialEffect" :key="key" :value="item">{{key}}</option>
           </select>
         </td>
@@ -223,19 +246,27 @@
       <tr>
         <td>Tag</td>
         <td>
-          <input type="text" v-model="selectedUserForm.tag" />
+          <input type="text" :value="selectedUserForm.tag" />
         </td>
       </tr>
       <tr>
         <td>Top</td>
         <td>
-          <input type="number" v-model="selectedUserForm.top" />
+          <input
+            type="number"
+            :value="selectedUserForm.innerWindowStyle.container.top"
+            @change="validators.sizeValidate($event,selectedUserForm,'top')"
+            @keyup.enter="validators.sizeValidate($event,selectedUserForm,'top')"
+          />
         </td>
       </tr>
       <tr>
         <td>WhatsThisButton</td>
         <td>
-          <select v-model="selectedUserForm.whatsThisButton">
+          <select
+            v-model="selectedUserForm.whatsThisButton"
+            @change="handleWhatsThis(selectedUserForm.whatsThisButton)"
+          >
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -244,7 +275,7 @@
       <tr>
         <td>WhatsThisHelp</td>
         <td>
-          <select v-model="selectedUserForm.whatsThisHelp">
+          <select v-model="selectedUserForm.whatsThisButton">
             <option selected>False</option>
             <option>True</option>
           </select>
@@ -253,13 +284,22 @@
       <tr>
         <td>Width</td>
         <td>
-          <input type="number" v-model="selectedUserForm.innerWindowStyle.container.width" />
+          <input
+            type="number"
+            :value="selectedUserForm.innerWindowStyle.container.width | sizeFilter"
+            @change="validators.sizeValidate($event,selectedUserForm,'width')"
+            @keyup.enter="validators.sizeValidate($event,selectedUserForm,'width')"
+          />
         </td>
       </tr>
       <tr>
         <td>Zoom</td>
         <td>
-          <input type="number" v-model="selectedUserForm.zoom" />
+          <input
+            type="number"
+            :value="selectedUserForm.innerWindowStyle.container.zoom"
+            @input="zoomValidate"
+          />
         </td>
       </tr>
     </table>
@@ -267,8 +307,6 @@
 </template>
 
 <script>
-// import SelectDropdown from "./SelectDropdown.vue";
-// import userForms from "./models/userForms.json";
 import backColor from "./models/backColor.json";
 import borderColor from "./models/borderColor.json";
 import borderStyle from "./models/borderStyle.json";
@@ -282,8 +320,7 @@ import scrollBars from "./models/scrollBars.json";
 import specialEffect from "./models/specialEffect.json";
 import startUpPosition from "./models/startUpPosition.json";
 import pictureSizeMode from "./models/pictureSizeMode.json";
-// import borderColor from "./models/borderColor.json";
-import { EventBus } from "./event-bus.js";
+import { validators } from "../validators/validator";
 
 export default {
   name: "userFormTable",
@@ -291,9 +328,9 @@ export default {
   components: {},
   data() {
     return {
+      validators: validators,
       pictureSizeMode: pictureSizeMode,
       backColor: backColor,
-      // root: userForms,
       borderColor: borderColor,
       borderStyle: borderStyle,
       cycle: cycle,
@@ -304,29 +341,54 @@ export default {
       pictureAlignment: pictureAlignment,
       scrollBars: scrollBars,
       specialEffect: specialEffect,
-      startUpPosition: startUpPosition
+      startUpPosition: startUpPosition,
+      previousDrawBuffer: this.selectedUserForm.drawBuffer,
+      previoushelpContextId: this.selectedUserForm.helpContextId
     };
   },
-  methods: {
-    validateUserFormName(e) {
-      let prms = new Promise((resolve, reject) => {
-        EventBus.$emit(
-          "validateUserFormName",
-          this.selectedUserForm,
-          e.target.value,
-          resolve,
-          reject
-        );
-      });
-      prms
-        .then(res => {
-          console.log("Res", res);
-        })
-        .catch(err => {
-          console.log("Erro", err);
-          this.selectedUserForm.name = e.target.value;
-        });
+  filters: {
+    sizeFilter(value) {
+      return parseInt(value, 10);
     }
+  },
+  methods: {
+    nameValidate() {},
+    drawBufferValidate(data) {
+      //
+      // let length = data;
+
+      console.log("outside");
+      console.log(data);
+      if (data > 16000 && data <= 1048576) {
+        this.selectedUserForm.drawBuffer = data;
+        console.log(this.selectedUserForm.drawBuffer);
+      } else {
+        this.selectedUserForm.drawBuffer = this.previousDrawBuffer;
+      }
+    },
+
+    handleBorderStyle(data) {
+      console.log(data);
+    },
+    helpContextIdValidate(data) {
+      // <2147000000
+      console.log(data);
+      if (data > 2147000000) {
+        alert("invalid property value");
+        this.selectedUserForm.helpContextId = this.previoushelpContextId;
+      }
+    },
+    rightToLeft(e) {
+      console.log("event right2left", e);
+    },
+    scrollHeightValidate() {},
+    scrollLeftValidate() {},
+    scrollTopValidate() {},
+    scrollWidthValidate() {},
+    handleWhatsThis(whatsThisButton) {
+      console.log("whatsThisButton  ", whatsThisButton);
+    },
+    zoomValidate() {}
   }
 };
 </script>
